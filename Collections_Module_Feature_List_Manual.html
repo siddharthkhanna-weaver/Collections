@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collections Module — Feature List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1b4645;
+    --primary-dark: #153534;
+    --primary-light: #d8e6d5;
+    --accent: #357b38;
+    --success: #357b38;
+    --warning: #ffbe36;
+    --danger: #f44336;
+    --gray-50: #f8f7f1;
+    --gray-100: #f0efea;
+    --gray-200: #eaebea;
+    --gray-300: #d1d2d1;
+    --gray-400: #9a9b9a;
+    --gray-500: #757a76;
+    --gray-600: #4b5150;
+    --gray-700: #374140;
+    --gray-800: #0e100f;
+    --gray-900: #0e100f;
+    --sidebar-w: 280px;
+    --header-h: 64px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* ---------- HEADER ---------- */
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-h);
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+  }
+
+  .menu-toggle {
+    display: none;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: -0.02em;
+  }
+
+  .header-title {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .header-title strong {
+    font-weight: 600;
+  }
+
+  .header-title .sep {
+    margin: 0 10px;
+    opacity: 0.5;
+  }
+
+  .header-title .sub {
+    opacity: 0.85;
+    font-weight: 400;
+  }
+
+  .search-box {
+    position: relative;
+    width: 320px;
+    max-width: 40vw;
+  }
+
+  .search-box input {
+    width: 100%;
+    height: 36px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 0 14px 0 36px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: background 0.2s ease;
+  }
+
+  .search-box input::placeholder {
+    color: rgba(255,255,255,0.6);
+  }
+
+  .search-box input:focus {
+    background: rgba(255,255,255,0.22);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255,255,255,0.7);
+    pointer-events: none;
+  }
+
+  .search-shortcut {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    pointer-events: none;
+    letter-spacing: 0.05em;
+  }
+
+  /* ---------- PROGRESS BAR ---------- */
+  .progress-bar {
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gray-200);
+    z-index: 99;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #357b38, #1b4645);
+    transition: width 0.1s ease-out;
+  }
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar {
+    position: fixed;
+    top: calc(var(--header-h) + 3px);
+    bottom: 0;
+    left: 0;
+    width: var(--sidebar-w);
+    background: #fff;
+    border-right: 1px solid var(--gray-200);
+    overflow-y: auto;
+    padding: 20px 0;
+    z-index: 50;
+    transition: transform 0.25s ease;
+  }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 40;
+  }
+
+  .sidebar-overlay.active {
+    display: block;
+  }
+
+  .nav-section {
+    padding: 0 0 20px;
+  }
+
+  .nav-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-500);
+    padding: 6px 24px 8px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 24px;
+    color: var(--gray-700);
+    text-decoration: none;
+    font-size: 13.5px;
+    border-left: 3px solid transparent;
+    transition: all 0.15s ease;
+    line-height: 1.35;
+  }
+
+  .nav-item:hover {
+    background: var(--gray-50);
+    color: var(--gray-900);
+  }
+
+  .nav-item.active {
+    border-left-color: var(--accent);
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    font-weight: 500;
+  }
+
+  .nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gray-300);
+    background: #fff;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+
+  .nav-item.visited .nav-dot {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .nav-item.active .nav-dot {
+    background: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(27, 70, 69, 0.15);
+  }
+
+  /* ---------- MAIN ---------- */
+  .main {
+    margin-left: var(--sidebar-w);
+    padding-top: calc(var(--header-h) + 3px);
+    min-height: 100vh;
+  }
+
+  .content {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 32px 32px 80px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff;
+    border-radius: 8px;
+    padding: 40px 36px;
+    margin-bottom: 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    opacity: 0.85;
+    margin-bottom: 14px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  .hero .lede {
+    font-size: 16px;
+    opacity: 0.92;
+    max-width: 680px;
+    line-height: 1.55;
+    font-weight: 300;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    flex-wrap: wrap;
+  }
+
+  .hero-meta-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-meta-value {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-meta-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.75;
+    margin-top: 2px;
+  }
+
+  /* ---------- SECTION CARDS ---------- */
+  .section-card {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s ease;
+  }
+
+  .section-header:hover {
+    background: var(--gray-50);
+  }
+
+  .section-number {
+    width: 32px;
+    height: 32px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .section-title {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-800);
+    letter-spacing: -0.005em;
+  }
+
+  .section-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .section-badge.info {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+  }
+
+  .section-badge.important {
+    background: #fff4d4;
+    color: #8a6d00;
+  }
+
+  .section-badge.cross {
+    background: var(--gray-100);
+    color: var(--gray-700);
+  }
+
+  .chevron {
+    width: 20px;
+    height: 20px;
+    color: var(--gray-500);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .section-card.open .chevron {
+    transform: rotate(180deg);
+  }
+
+  .section-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .section-card.open .section-body {
+    max-height: 100000px;
+  }
+
+  .section-content {
+    padding: 8px 22px 26px;
+    border-top: 1px solid var(--gray-100);
+  }
+
+  .section-content > p {
+    color: var(--gray-700);
+    margin: 16px 0;
+  }
+
+  .section-content > p.lead {
+    font-size: 15.5px;
+    color: var(--gray-700);
+    font-style: italic;
+    padding: 14px 16px;
+    background: var(--gray-50);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    margin-top: 18px;
+  }
+
+  /* ---------- SUB-BLOCKS ---------- */
+  .sub-block {
+    margin-top: 26px;
+  }
+
+  .sub-block:first-child {
+    margin-top: 18px;
+  }
+
+  .sub-block h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: -0.005em;
+  }
+
+  .sub-block h4 .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+    background: var(--primary-light);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  /* ---------- FEATURE ITEMS ---------- */
+  .feature-list {
+    list-style: none;
+  }
+
+  .feature-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .feature-item:last-child {
+    border-bottom: none;
+  }
+
+  .feature-item .feat {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-800);
+    margin-bottom: 8px;
+    line-height: 1.45;
+  }
+
+  .feature-item .ex {
+    display: block;
+    background: var(--gray-50);
+    border-left: 3px solid var(--accent);
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.55;
+  }
+
+  .feature-item .ex::before {
+    content: "Example  ";
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-right: 4px;
+  }
+
+  .feature-item .ex code,
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--primary-dark);
+  }
+
+  /* ---------- CALLOUTS ---------- */
+  .callout {
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin: 18px 0;
+    font-size: 14px;
+    line-height: 1.55;
+    border-left: 4px solid;
+  }
+
+  .callout-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .callout.info {
+    background: rgba(27, 70, 69, 0.05);
+    border-left-color: var(--primary);
+    color: var(--gray-800);
+  }
+
+  .callout.info .callout-title {
+    color: var(--primary);
+  }
+
+  .callout.warning {
+    background: rgba(255, 190, 54, 0.08);
+    border-left-color: var(--warning);
+    color: var(--gray-800);
+  }
+
+  .callout.warning .callout-title {
+    color: #8a6d00;
+  }
+
+  .callout.success {
+    background: rgba(53, 123, 56, 0.06);
+    border-left-color: var(--success);
+    color: var(--gray-800);
+  }
+
+  .callout.success .callout-title {
+    color: var(--success);
+  }
+
+  .callout.danger {
+    background: rgba(244, 67, 54, 0.05);
+    border-left-color: var(--danger);
+    color: var(--gray-800);
+  }
+
+  .callout.danger .callout-title {
+    color: var(--danger);
+  }
+
+  /* ---------- TABLES ---------- */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 18px 0;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+
+  thead {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  th {
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  td {
+    padding: 12px 14px;
+    border-top: 1px solid var(--gray-200);
+    color: var(--gray-700);
+    vertical-align: top;
+  }
+
+  tbody tr:hover {
+    background: var(--gray-50);
+  }
+
+  tbody tr td:first-child {
+    font-weight: 600;
+    color: var(--gray-900);
+    white-space: nowrap;
+  }
+
+  /* ---------- ANTI-FEATURES GRID ---------- */
+  .anti-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .anti-item {
+    padding: 14px 16px;
+    background: rgba(244, 67, 54, 0.04);
+    border: 1px solid rgba(244, 67, 54, 0.18);
+    border-radius: 8px;
+    position: relative;
+    padding-left: 44px;
+  }
+
+  .anti-item::before {
+    content: "✕";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    color: var(--danger);
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .anti-item strong {
+    display: block;
+    color: var(--gray-900);
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+
+  .anti-item span {
+    font-size: 13px;
+    color: var(--gray-700);
+  }
+
+  /* ---------- AHFC GRID ---------- */
+  .ahfc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .ahfc-card {
+    padding: 16px 18px;
+    background: var(--primary-light);
+    border: 1px solid rgba(53, 123, 56, 0.2);
+    border-radius: 8px;
+  }
+
+  .ahfc-card .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--primary);
+    letter-spacing: 0.1em;
+  }
+
+  .ahfc-card h5 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 4px 0 6px;
+  }
+
+  .ahfc-card p {
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.55;
+  }
+
+  /* ---------- JOBS OVERVIEW GRID ---------- */
+  .jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    margin: 16px 0;
+  }
+
+  .job-tile {
+    padding: 14px 16px;
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    border-top: 3px solid var(--accent);
+  }
+
+  .job-tile .job-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--gray-500);
+    letter-spacing: 0.15em;
+  }
+
+  .job-tile .job-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin: 4px 0 6px;
+  }
+
+  .job-tile .job-q {
+    font-size: 12.5px;
+    color: var(--gray-600);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* ---------- USAGE LIST ---------- */
+  .usage-list {
+    list-style: none;
+    counter-reset: usage;
+    margin-top: 12px;
+  }
+
+  .usage-list li {
+    counter-increment: usage;
+    padding: 14px 0 14px 48px;
+    position: relative;
+    border-bottom: 1px solid var(--gray-100);
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.55;
+  }
+
+  .usage-list li:last-child {
+    border-bottom: none;
+  }
+
+  .usage-list li::before {
+    content: counter(usage);
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 30px;
+    height: 30px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .usage-list li strong {
+    color: var(--gray-900);
+    font-weight: 600;
+  }
+
+  /* ---------- GLOSSARY ---------- */
+  .glossary-group {
+    margin-top: 24px;
+  }
+
+  .glossary-group:first-child {
+    margin-top: 12px;
+  }
+
+  .glossary-group h5 {
+    font-family: 'Geist', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--gray-300);
+  }
+
+  .glossary-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 8px 18px;
+  }
+
+  .term {
+    padding: 10px 12px;
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+  }
+
+  .term dt {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 3px;
+  }
+
+  .term dt .full {
+    font-family: 'Geist', sans-serif;
+    font-size: 11.5px;
+    color: var(--gray-500);
+    font-weight: 400;
+    margin-left: 8px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .term dd {
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+
+  /* ---------- BACK TO TOP ---------- */
+  .back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(27, 70, 69, 0.3);
+    z-index: 60;
+  }
+
+  .back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .back-to-top:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+  }
+
+  /* ---------- MARK (search) ---------- */
+  mark {
+    background: #fff4a3;
+    color: var(--gray-900);
+    padding: 1px 2px;
+    border-radius: 2px;
+  }
+
+  /* ---------- FOOTER ---------- */
+  .doc-footer {
+    text-align: center;
+    color: var(--gray-500);
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-200);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 960px) {
+    .menu-toggle { display: flex; }
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; }
+    .content { padding: 20px 16px 60px; }
+    .hero { padding: 28px 22px; }
+    .hero h1 { font-size: 26px; }
+    .header-title .sub, .header-title .sep { display: none; }
+    .search-box { width: 200px; }
+  }
+
+  @media (max-width: 600px) {
+    .search-box { display: none; }
+  }
+
+  /* ---------- PRINT ---------- */
+  @media print {
+    .header, .progress-bar, .sidebar, .back-to-top, .sidebar-overlay { display: none !important; }
+    .main { margin-left: 0; padding-top: 0; }
+    .content { max-width: 100%; padding: 0; }
+    .section-body { max-height: none !important; }
+    .chevron { display: none; }
+    .hero { background: var(--primary) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section-card { page-break-inside: avoid; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="logo-mark">PHF</div>
+    <div class="header-title">
+      <strong>Collections Module</strong>
+      <span class="sep">·</span>
+      <span class="sub">Feature List</span>
+    </div>
+  </div>
+  <div class="search-box">
+    <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="searchInput" placeholder="Search the document…" autocomplete="off">
+    <span class="search-shortcut">Ctrl K</span>
+  </div>
+</header>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="nav-section">
+    <div class="nav-section-title">Foundation</div>
+    <a href="#overview" class="nav-item"><span class="nav-dot"></span>Overview</a>
+    <a href="#method" class="nav-item"><span class="nav-dot"></span>Method</a>
+    <a href="#seven-jobs" class="nav-item"><span class="nav-dot"></span>The Seven Atomic Jobs</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">The Seven Jobs</div>
+    <a href="#sense" class="nav-item"><span class="nav-dot"></span>01 — Sense</a>
+    <a href="#decide" class="nav-item"><span class="nav-dot"></span>02 — Decide</a>
+    <a href="#reach" class="nav-item"><span class="nav-dot"></span>03 — Reach</a>
+    <a href="#act" class="nav-item"><span class="nav-dot"></span>04 — Act</a>
+    <a href="#record" class="nav-item"><span class="nav-dot"></span>05 — Record</a>
+    <a href="#settle" class="nav-item"><span class="nav-dot"></span>06 — Settle</a>
+    <a href="#improve" class="nav-item"><span class="nav-dot"></span>07 — Improve</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Cross-Cutting</div>
+    <a href="#guardrails" class="nav-item"><span class="nav-dot"></span>Guardrails</a>
+    <a href="#plumbing" class="nav-item"><span class="nav-dot"></span>Plumbing</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Application</div>
+    <a href="#ahfc" class="nav-item"><span class="nav-dot"></span>AHFC Specifics</a>
+    <a href="#mvp" class="nav-item"><span class="nav-dot"></span>Minimum Viable Cut</a>
+    <a href="#anti" class="nav-item"><span class="nav-dot"></span>Anti-Features</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Reference</div>
+    <a href="#glossary" class="nav-item"><span class="nav-dot"></span>Glossary</a>
+  </div>
+</nav>
+
+<main class="main">
+  <div class="content">
+
+    <!-- HERO -->
+    <section class="hero" id="overview">
+      <div class="hero-eyebrow">Affordable Housing Finance · Research Document</div>
+      <h1>Collections Module — Feature List</h1>
+      <p class="lede">Derived from the single purpose of a collections module — close the gap between what is owed and what is collected. Every legitimate feature serves one of seven atomic jobs. Anything that doesn't is bloat.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-value">7</span>
+          <span class="hero-meta-label">Atomic Jobs</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-value">2</span>
+          <span class="hero-meta-label">Cross-Cutting</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-value">75+</span>
+          <span class="hero-meta-label">Glossary Terms</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-value">~25 min</span>
+          <span class="hero-meta-label">Read Time</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: METHOD -->
+    <article class="section-card open" id="method">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">01</div>
+        <div class="section-title">Method</div>
+        <span class="section-badge info">Foundation</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p>A collections module is not a bag of vendor features. It exists because a lender has given money, the borrower has a contractual schedule to repay, and reality deviates from that schedule. The system must close the gap between "what is owed" and "what is collected" — legally, economically, and at scale.</p>
+          <p>From that single purpose, <strong>seven atomic jobs</strong> fall out. Every legitimate feature serves one of them. Two cross-cutting layers — <strong>guardrails</strong> (compliance, consent, security) and <strong>plumbing</strong> (integrations, master data, configuration) — wrap all seven.</p>
+          <div class="callout info">
+            <span class="callout-title">First-principles discipline</span>
+            Features are derived from the jobs they serve.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 2: SEVEN JOBS OVERVIEW -->
+    <article class="section-card" id="seven-jobs">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">02</div>
+        <div class="section-title">The Seven Atomic Jobs</div>
+        <span class="section-badge important">Anchor</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p>Each job answers one fundamental question. Every feature in the rest of this document maps back to one of these seven.</p>
+          <div class="jobs-grid">
+            <div class="job-tile"><div class="job-num">JOB · 01</div><div class="job-name">Sense</div><div class="job-q">What is the current state of every account, borrower, contact, and asset?</div></div>
+            <div class="job-tile"><div class="job-num">JOB · 02</div><div class="job-name">Decide</div><div class="job-q">For each case, at this moment, what is the right next action?</div></div>
+            <div class="job-tile"><div class="job-num">JOB · 03</div><div class="job-name">Reach</div><div class="job-q">Can we contact this borrower — through which channel, when?</div></div>
+            <div class="job-tile"><div class="job-num">JOB · 04</div><div class="job-name">Act</div><div class="job-q">Execute the chosen treatment — nudge, call, visit, notice, suit, auction.</div></div>
+            <div class="job-tile"><div class="job-num">JOB · 05</div><div class="job-name">Record</div><div class="job-q">What happened, who did it, with what evidence?</div></div>
+            <div class="job-tile"><div class="job-num">JOB · 06</div><div class="job-name">Settle</div><div class="job-q">Collect the money, reconcile it, close the case correctly.</div></div>
+            <div class="job-tile"><div class="job-num">JOB · 07</div><div class="job-name">Improve</div><div class="job-q">Measure outcomes, attribute causes, tune the strategy.</div></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 3: SENSE -->
+    <article class="section-card" id="sense">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">03</div>
+        <div class="section-title">Job 01 — Sense — Know the State</div>
+        <span class="section-badge info">Job</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p class="lead">A system cannot collect what it cannot see. The minimum sensing surface:</p>
+
+          <div class="sub-block">
+            <h4><span class="num">1.1</span>Account &amp; loan state</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Loan master — product, sanction, schedule, tenor, ROI, EMI, collateral linkage</div>
+                <span class="ex">Loan <code>LN10234</code>: ₹18L sanctioned, 240-month tenor, 11.5% ROI, EMI ₹19,180, secured by Plot 47/B Bhiwadi.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Live ledger — principal, interest accrued, penal, charges, suspense, paid/due/skipped EMIs</div>
+                <span class="ex">On 26-Apr Mr. Sharma's account shows principal ₹16.4L, interest accrued ₹4,200, penal ₹680, 1 EMI overdue, ₹0 in suspense.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">DPD calculator (running, not batch) with bucket assignment</div>
+                <span class="ex">EMI due 5-Apr; today 26-Apr → DPD = 21 → bucket <code>1-30</code>. Recomputed every hour as payments post — no overnight wait.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Roll/flow tracking — yesterday's bucket → today's bucket per account</div>
+                <span class="ex">Yesterday 142 accounts in 0-DPD; 11 of them rolled to 1-30 today because their NACH presentation bounced overnight.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Restructure / re-age / moratorium flags — both original and revised schedules retained</div>
+                <span class="ex">Borrower restructured Aug-2024 due to job loss: original EMI ₹22,000, revised ₹17,000 for 18mo. Both retained for RBI audit.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">1.2</span>Borrower &amp; relationship state</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Borrower 360 — applicant, co-applicant, guarantor, references, employer, all linked accounts</div>
+                <span class="ex">One screen shows Mr. Sharma (applicant) + Mrs. Sharma (co-applicant) + brother (guarantor), plus his ₹2L personal loan from same lender — cross-default visible.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Identity graph — PAN, Aadhaar masked, mobile, email, address, with verification status + source-of-truth per attribute</div>
+                <span class="ex">PAN <code>ABCDE1234F</code> verified via NSDL; mobile <code>9XXX-XX12</code> verified via OTP 14-Mar; address sourced from registered sale deed.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Behavioral history — past delinquencies, cures, PTPs kept/broken, settlements, complaints, hardship flags</div>
+                <span class="ex">Bounced Jan-2024 cured Day-9; broke 1 PTP Feb-2025; raised an RM-conduct complaint Aug-2025 → auto-flag "handle gently, no aggressive scripts".</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">KYC / contact freshness — age of last refresh, auto-trigger periodic refresh</div>
+                <span class="ex">Last KYC refresh 18 months ago → RBI re-KYC due → branch task auto-created for next visit.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">1.3</span>Collateral state (mortgage-secured)</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Property record — address, geo-coordinates, type, current valuation, last valuation date, valuer ID</div>
+                <span class="ex">Plot 47/B Sector-3 Bhiwadi 301019, lat 28.20 lng 76.86, independent house, ₹24L (Knight Frank, Apr-2026).</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Lien status, insurance policy, premium-paid status, claim history</div>
+                <span class="ex">Equitable mortgage registered 12-Jan-2022; HDFC Ergo property cover policy <code>HE-882</code> expires 14-Aug-2026, premium paid; no claims to date.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Title document custody — location + barcode/RFID</div>
+                <span class="ex">Original sale deed in Bhiwadi-Branch vault, locker B-104, RFID tag <code>0x4F2A</code>; last accessed 10-Mar-2026 by Branch Manager (logged).</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">1.4</span>Contactability state</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Per-channel reachability — RNR / switched-off rate, bounce rate, PIN-validity, last-successful-contact timestamp</div>
+                <span class="ex">Mobile-1: RNR 8/10 last attempts; Mobile-2: 60% connect; email: bounced 22-Apr; address PIN valid → strategy engine drops Mobile-1 + email for now.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Consent registry per channel — DND, WhatsApp opt-in, voice-bot consent, recording consent</div>
+                <span class="ex">WhatsApp opt-in YES (12-Mar-2024); voice DND after 6pm; recording-consent YES captured in 14-Apr call audio at <code>00:08</code>.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Working-hours profile — when this borrower actually picks up</div>
+                <span class="ex">Best connect Tue–Thu 11am–1pm based on last 30 days; avoid Sat (visits temple). Dialer auto-respects.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">1.5</span>Field &amp; operational state</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Geo-mesh of cases — pincode / cluster / branch view of the portfolio</div>
+                <span class="ex">Bhiwadi cluster: 432 cases — 38 in 1-30, 12 in 31-60, 4 in 61-90, 2 in 90+ — assigned to FOS team of 6.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Agent / agency capacity, in-shift status, route load</div>
+                <span class="ex">Agent Ravi K — 8 active visits today, capacity 12, in-shift since 9:42am, currently at lat 28.21/76.85.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Notice &amp; legal-stage state machine — where each case sits in the legal pipeline</div>
+                <span class="ex">LN10234 currently at <code>SARFAESI 13(2) issued 10-Apr</code>; 60-day reply window expires 9-Jun; auto-task to lawyer for 13(4) draft on 10-Jun.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">1.6</span>Event stream</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Append-only event log of every state transition — single source of truth; reports are projections, not separate tables</div>
+                <span class="ex">Every payment, bucket roll, contact attempt, PTP, notice issued lands as an immutable event. Any moment in account history can be replayed; new reports are queries, not new pipelines.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="callout success">
+            <span class="callout-title">Why first-principles</span>
+            Without 1.1–1.6, jobs 2–7 are guesswork. Most "missing feature" complaints in collection systems trace back to a hole in the sensing surface.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 4: DECIDE -->
+    <article class="section-card" id="decide">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">04</div>
+        <div class="section-title">Job 02 — Decide — Choose the Right Action</div>
+        <span class="section-badge info">Job</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p class="lead">For this case, now, what is the cheapest action with the highest expected recovery?</p>
+
+          <div class="sub-block">
+            <h4><span class="num">2.1</span>Segmentation</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Rule-based (DPD × ticket × product × geography × employment-type)</div>
+                <span class="ex">DPD 31-60 + ticket >₹15L + self-employed + Tier-3 city → segment <code>HARD-FIELD-PRIO</code> with daily field touch.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Score-based (propensity-to-pay, propensity-to-cure, propensity-to-roll)</div>
+                <span class="ex">Cure-score 0.78 → light-touch digital is enough; cure-score 0.22 + LGD ₹14L → start legal prep in parallel with field.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Behavioral (chronic late-payer, first-time defaulter, willful, hardship, contactable-but-unwilling, uncontactable)</div>
+                <span class="ex">"Chronic but cures" — 5+ bounces in 12mo but always cures by Day-15: light IVR only, don't burn agent capacity.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Value tiering (high-balance / high-LGD vs long-tail)</div>
+                <span class="ex">Top 10% of bucket-90+ holds 62% of exposure → daily senior-collector attention; long-tail → quarterly bulk-notice sweep.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">2.2</span>Strategy engine</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Treatment-tree configuration — per segment, sequence of actions across days / buckets</div>
+                <span class="ex">Soft-bucket tree: <code>T-3 SMS → T+1 IVR → T+5 agent call → T+10 field visit → T+15 demand notice</code>. Configurable by ops, no release needed.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Conditional branching — if PTP made → suspend escalation; if RNR×3 → switch channel</div>
+                <span class="ex">Day-7: PTP captured for 21-Apr → escalation paused until 22-Apr. PTP broken → jumps to legal-prep node, skips remaining soft steps.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Cost-aware action selection — cheapest channel that achieves expected lift</div>
+                <span class="ex">IVR ₹0.30/call vs agent ₹35/call. For low-value soft-bucket cases, two IVR attempts before any agent dial.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Cool-off and frequency caps embedded in the tree, not in policy docs</div>
+                <span class="ex">Max 3 outbound voice attempts/day; max 1 SMS/day. Dialer refuses 4th call automatically — RBI cap enforced at infra, not honor system.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">2.3</span>Allocation engine</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Auto-assignment to channel (digital / tele / field / legal / agency)</div>
+                <span class="ex">Bucket 1-30 + ticket <₹10L → digital; 31-60 → tele; 61-90 → field; 90+ → legal+field. Re-runs nightly on bucket migration.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Agent-level allocation respecting skill, language, geography, workload</div>
+                <span class="ex">Hindi-speaking agent for Bhiwadi cases; female agent flag for Mrs. Verma's case (request on file); cap 80 cases/agent/day.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Agency allocation with quota, vintage-mix, exclusion rules</div>
+                <span class="ex">Agency "XYZ Recoveries" gets only 60-90 bucket, max 200 cases/month, never any case with prior harassment complaint.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Re-allocation triggers — no-contact in N days, PTP broken, escalation</div>
+                <span class="ex">No contact in 5 days → reassign from tele to field; PTP broken twice → escalate from field to legal team.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">2.4</span>Prioritisation</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Within an agent's queue, ranked by expected-value (P-recovery × amount × time-decay)</div>
+                <span class="ex">A ₹4L case at 80% pay-prob (EV ₹3.2L) outranks a ₹10L case at 25% pay-prob (EV ₹2.5L). Agent's top-of-queue is always the highest-EV next call.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Next-Best-Action surface — tell the agent what to do, don't make them think</div>
+                <span class="ex">On opening LN10234 the desktop says: "Send payment link via WhatsApp — borrower paid via WA last 3 times." One-click action.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">2.5</span>Champion-challenger</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Run two strategies on matched cohorts simultaneously and measure lift</div>
+                <span class="ex">50% of 31-60 bucket gets new WhatsApp voice-note treatment, 50% gets old IVR. After 30 days, cure-rate +4.2pp at p=0.03 → auto-promote.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="callout success">
+            <span class="callout-title">Why first-principles</span>
+            Action without strategy is spam. Strategy without measurement is superstition. The decide layer is what separates a collection system from a dialer.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 5: REACH -->
+    <article class="section-card" id="reach">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">05</div>
+        <div class="section-title">Job 03 — Reach — Establish Contact</div>
+        <span class="section-badge info">Job</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p class="lead">Treatment fails if the borrower is unreachable. Reach is its own engineering problem.</p>
+
+          <div class="sub-block">
+            <h4><span class="num">3.1</span>Contact discovery &amp; enrichment</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Skip-tracing connectors — bureau, telco, social, alternate-data vendors</div>
+                <span class="ex">Mobile-1 dead 30 days → CIBIL pull surfaces alternate mobile; EPFO pull confirms current employer; Aadhaar e-KYC consent flow returns latest address.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Reference-walking workflow — call references captured at origination, with consent</div>
+                <span class="ex">Borrower untraceable → call reference-1 (uncle): "We're trying to reach Mr. Sharma about a routine matter, can you ask him to call back?" — fully scripted, recorded, FPC-compliant.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Address verification via field-visit feedback loop</div>
+                <span class="ex">FOS visit reports "address vacant, neighbours say family moved 3mo ago" → flag triggers skip-trace order + bureau-address refresh.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Co-applicant / guarantor cascade when primary unreachable</div>
+                <span class="ex">Mr. Sharma RNR 5 days → system automatically queues Mrs. Sharma (co-applicant) → if she also fails, brother (guarantor) is queued next.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">3.2</span>Channel orchestration</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">All outbound channels first-class — SMS, email, WhatsApp (BSP-integrated, template-managed), IVR, voice-bot, agent, field, letter, legal notice</div>
+                <span class="ex">SMS via DLT-registered template <code>EMIRMD-001</code>; WhatsApp via Karix BSP template <code>collection_emi_due_v3</code>; both stored in the template registry, not hard-coded.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Channel waterfall — try cheapest, fall back</div>
+                <span class="ex">WhatsApp (₹0.10) → if not delivered in 4hrs, IVR (₹0.30) → if RNR, agent (₹35). Each step is a config row, not a code branch.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Per-channel suppression — DND, complaint-history, regulatory</div>
+                <span class="ex">Borrower on DND → skip voice; in 7-day complaint cool-off → skip all outbound; on legal-hold → only legal team can contact.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">3.3</span>Right-time engine</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Best-time-to-call per borrower, learned from connect history</div>
+                <span class="ex">Mr. Sharma: 87% historical pickup Tue–Thu 11am–1pm → dialer auto-schedules within that window, ignores agent's "call now" instinct.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Calling-hour guardrails enforced by jurisdiction (RBI FPC: 8am–7pm)</div>
+                <span class="ex">Outbound dialer disabled 7pm–8am IST and all-day on national holidays — enforced at the dialer infra layer; no agent can manually override.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">3.4</span>Identity &amp; deliverability</h4>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <div class="feat">Sender ID / DLT template / WhatsApp template registry</div>
+                <span class="ex">All SMS sender IDs and templates registered on TRAI DLT; rejected templates surface in a queue for re-approval; no rogue messages can leave the system.</span>
+              </li>
+              <li class="feature-item">
+                <div class="feat">Bounce / undeliverable feedback loop closing back into 1.4 (Contactability state)</div>
+                <span class="ex">Email to borrower bounced "user unknown" → state 1.4 marks email invalid → strategy engine drops email channel for this borrower until refresh.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 6: ACT -->
+    <article class="section-card" id="act">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">06</div>
+        <div class="section-title">Job 04 — Act — Execute the Treatment</div>
+        <span class="section-badge info">Job</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p class="lead">Each channel needs a real execution surface, not just a pointer.</p>
+
+          <div class="sub-block">
+            <h4><span class="num">4.1</span>Digital self-service (pre-due + soft bucket)</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Dynamic payment links — UPI, cards, netbanking, wallet — deep-linked to amount</div><span class="ex">WhatsApp message: "Pay ₹19,180 EMI for LN10234" with one-tap link → opens GPay/PhonePe pre-filled — no typing, no copy-paste, no errors.</span></li>
+              <li class="feature-item"><div class="feat">WhatsApp pay-flow with inline payment</div><span class="ex">Borrower replies "PAY" → bot sends interactive button → tap → UPI intent → done in ~30 seconds, no app switch.</span></li>
+              <li class="feature-item"><div class="feat">E-NACH / e-mandate — setup, modify, cancel</div><span class="ex">Borrower's HDFC mandate bouncing 3 months in a row → app prompts "Update mandate" → e-mandate via Aadhaar OTP, switches to ICICI salary account.</span></li>
+              <li class="feature-item"><div class="feat">PDC inventory + presentation calendar + bounce-charge automation</div><span class="ex">32 PDCs in custody; 3 due 5-May; on bounce, ₹500 + GST charge auto-debited and SMS sent the same day.</span></li>
+              <li class="feature-item"><div class="feat">Self-service portal / app — dues, statement, hardship, restructure, callback, dispute</div><span class="ex">Borrower opens app → sees ₹19,180 due → taps "Apply for hardship" → uploads job-loss letter → case routed to restructure queue, no agent dial needed.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">4.2</span>Tele-calling</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Agent desktop — 360 view + script + disposition + NBA + payment-link send + recording control</div><span class="ex">One screen: borrower 360, last 5 interactions, recommended script, disposition codes, "Send payment link" button, mute/hold/transfer. No tab-hopping.</span></li>
+              <li class="feature-item"><div class="feat">Predictive / progressive / preview dialer modes</div><span class="ex">Predictive for soft bucket high volume; progressive for hard bucket sensitive cases; preview mode for legal/escalation where agent must read the file first.</span></li>
+              <li class="feature-item"><div class="feat">IVR &amp; voice-bot with payment-intent capture and warm-transfer to live agent</div><span class="ex">AI bot: "Mr. Sharma, your ₹19,180 EMI is due. Press 1 to pay now via UPI, 2 to talk to an agent." If 2, transferred to agent with intent already on screen.</span></li>
+              <li class="feature-item"><div class="feat">Call-back scheduler honoured by the dialer</div><span class="ex">Borrower says "call after 3pm" → dialer schedules at 3:05pm and refuses to dial earlier; honours the commitment, builds trust.</span></li>
+              <li class="feature-item"><div class="feat">Live monitoring — whisper, barge for supervisors</div><span class="ex">Supervisor whispers ("offer the OTS option") to a new agent mid-call without borrower hearing; barges in if script goes off-policy.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">4.3</span>Field operations (FOS)</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Mobile app (offline-capable) with day's beat plan</div><span class="ex">Agent in low-signal village near Khairthal — beat plan, borrower 360, receipts all cached locally; sync when network returns. No "no-network, no-work".</span></li>
+              <li class="feature-item"><div class="feat">Geo-tagged check-in / check-out, selfie + property photo</div><span class="ex">Visit logged at lat 28.21 / lng 76.85 (matches property record ±50m); selfie + property photo timestamped — proof against fake-visit fraud.</span></li>
+              <li class="feature-item"><div class="feat">Route optimisation across the day's cases</div><span class="ex">8 cases scheduled today across Bhiwadi → Tijara → Khairthal — app sequences for shortest path; ~28km saved, 2 extra cases possible.</span></li>
+              <li class="feature-item"><div class="feat">On-spot receipt — cash, cheque, UPI, POS — digital + printed</div><span class="ex">Borrower pays ₹19,180 cash on doorstep → digital receipt sent to WhatsApp + printed copy from agent's Bluetooth printer; both bear receipt number, GST.</span></li>
+              <li class="feature-item"><div class="feat">Cash custody — deposit slip, deposit-to-bank reconciliation, shortage tracking</div><span class="ex">EOD: Agent Ravi declares ₹47,500 collected; bank deposit slip ₹47,500; matched. Agent Suresh declared ₹32,000; deposit ₹31,500 → ₹500 shortage flagged for HR.</span></li>
+              <li class="feature-item"><div class="feat">Visit disposition with structured outcomes</div><span class="ex">Dropdown: <code>Met-borrower</code>, <code>Met-family</code>, <code>Premises-locked</code>, <code>Address-incorrect</code>, <code>Refused</code>, <code>PTP-given</code>, <code>Paid</code>. Drives strategy tree, not free-text guesswork.</span></li>
+              <li class="feature-item"><div class="feat">Possession workflow (SARFAESI 13(4)) — symbolic and physical</div><span class="ex">60-day 13(2) reply window elapsed → 13(4) symbolic possession: newspaper notice (English + vernacular), panchnama with two witnesses, photo-record of premises.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">4.4</span>Legal &amp; recovery</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Notice templates — reminder, demand, Sec 138 NI, SARFAESI 13(2)/13(4)/13(8), possession</div><span class="ex">One-click "Generate SARFAESI 13(2)" → pulls borrower, property, dues; outputs PDF in regulator-compliant format with vernacular translation; lawyer just reviews.</span></li>
+              <li class="feature-item"><div class="feat">E-stamp + e-sign integration; physical dispatch with AD/POD tracking</div><span class="ex">₹100 e-stamp via SHCIL API; lawyer e-signs via DSC; Speed Post dispatch with AD; AD card scanned and linked back to the case file.</span></li>
+              <li class="feature-item"><div class="feat">Court case management — Sec 138 NI, SARFAESI 17 (DRT appeal), civil suit, arbitration, Lok Adalat, DRT, NCLT</div><span class="ex">Case <code>CC/123/2026</code> Bhiwadi MM Court, Sec 138 NI; next hearing 12-May; auto-reminders to lawyer + collections lead 7d/3d/1d before; orders auto-attached.</span></li>
+              <li class="feature-item"><div class="feat">Auction module — valuation, reserve price, e-auction, EMD, bidder management, sale certificate, proceeds waterfall</div><span class="ex">₹24L property reserve set; e-auction on MSTC 15-Mar; 3 bidders, ₹2.4L EMD each; sold ₹26.5L → ₹16.8L to loan, ₹4.2L charges, ₹5.5L surplus to borrower.</span></li>
+              <li class="feature-item"><div class="feat">Lawyer / agency assignment with cost tracking per case</div><span class="ex">Each case has a running cost meter — court fees ₹3,200 + lawyer fee ₹15,000 + misc ₹1,800 = ₹20,000 spent so far; visible alongside outstanding.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">4.5</span>Settlement &amp; restructuring</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">OTS / waiver workflow with delegation matrix — who can approve what haircut</div><span class="ex">Borrower offers ₹12L on ₹16L outstanding (25% haircut). Matrix: ≤25% → Zonal Head; 25–40% → Risk Committee; >40% → Board. Auto-routes, no email chains.</span></li>
+              <li class="feature-item"><div class="feat">Restructure — revised schedule, NPV impact, regulatory classification check</div><span class="ex">EMI ₹19,180 → ₹14,500 for 24mo, balance tenor extended; NPV impact ₹2.4L; system flags as "Restructured Standard" per RBI norms with effective date.</span></li>
+              <li class="feature-item"><div class="feat">Re-aging eligibility check + audit reason code</div><span class="ex">Post-restructure 12 EMIs paid on time → eligible for re-classification to Standard; system alerts and creates approval task with mandatory reason code.</span></li>
+              <li class="feature-item"><div class="feat">Insurance-claim trigger — death, disability, property — claim filing + proceeds appropriation</div><span class="ex">Borrower deceased → death certificate uploaded → claim auto-filed with HDFC Life accident-cover policy → ₹18L claim → applied to loan, surplus to nominee.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 7: RECORD -->
+    <article class="section-card" id="record">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">07</div>
+        <div class="section-title">Job 05 — Record — Capture What Happened</div>
+        <span class="section-badge info">Job</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p class="lead">Without an evidentiary record, no recovery action survives challenge.</p>
+
+          <div class="sub-block">
+            <h4><span class="num">5.1</span>Interaction log</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Every call (with recording), SMS, email, WhatsApp, visit, letter, notice — timestamped, agent-stamped, channel-stamped</div><span class="ex"><code>15-Apr 14:32 IST</code> — Outbound call by Agent Ravi (ID 8821) to mobile-1, duration 4:12, recording S3 path stored, disposition <code>PTP-21-Apr-₹19180</code>.</span></li>
+              <li class="feature-item"><div class="feat">Free-text + structured disposition + standardised reason codes</div><span class="ex">Note: "Borrower says salary delayed by employer until 25-Apr"; tagged <code>Hardship</code> + <code>Income-disruption</code>. Free-text supports nuance; codes drive strategy.</span></li>
+              <li class="feature-item"><div class="feat">Customer voice — complaints, hardship statements — tagged separately and never auto-deleted</div><span class="ex">Inbound complaint 18-Apr: "Agent called my neighbour and disclosed loan details" → flagged as harassment complaint, queued to grievance officer with 7-day SLA.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">5.2</span>Promise-to-Pay</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">PTP capture — amount + date + channel</div><span class="ex">Captured during call: <code>PTP ₹19,180 by 21-Apr via UPI</code>. Promise stored as a structured object, not buried in free-text notes.</span></li>
+              <li class="feature-item"><div class="feat">PTP tracking — kept, broken, partial</div><span class="ex">21-Apr 23:59 — no payment landed → PTP marked <code>broken</code> at midnight → strategy engine auto-escalates to next stage on 22-Apr morning.</span></li>
+              <li class="feature-item"><div class="feat">Auto-link of incoming payment to open PTP</div><span class="ex">Inbound UPI ₹19,180 from same VPA on 22-Apr → auto-links to broken PTP, marks <code>paid-late</code>, agent doesn't have to manually reconcile.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">5.3</span>Document vault</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">All notices, AD cards, POD, court orders, valuation reports, sale certificates, OTS letters, NOCs</div><span class="ex">Sec 138 notice scanned + AD card scanned; SARFAESI 13(2) PDF + Speed Post POD; valuation report (Apr-2026); court order date-stamped, OCR-indexed.</span></li>
+              <li class="feature-item"><div class="feat">Versioning, retention policy, legal-hold flag</div><span class="ex">OTS letter v1 issued, borrower negotiated, v2 issued — both retained, v2 marked active. Court case filed → all account documents flagged <code>legal-hold</code>, cannot be auto-purged.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">5.4</span>Audit trail</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Append-only log of who did what when — config change, allocation change, waiver, write-off, sensitive PII access</div><span class="ex"><code>22-Apr 11:14</code> — User <code>MGR-401</code> changed waterfall config from "penal-first" to "principal-first" on product AHFL-HF-Std. Approved by <code>RISK-001</code> at 11:18.</span></li>
+              <li class="feature-item"><div class="feat">Tamper-evident — hash-chained or WORM</div><span class="ex">Each event hash-chained with the previous; tamper attempt detected at next reconciliation. Stands up in DRT/court as digital evidence under IT Act §65B.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 8: SETTLE -->
+    <article class="section-card" id="settle">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">08</div>
+        <div class="section-title">Job 06 — Settle — Move and Reconcile Money</div>
+        <span class="section-badge info">Job</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p class="lead">The act of collecting is incomplete until money is in the right ledger account.</p>
+
+          <div class="sub-block">
+            <h4><span class="num">6.1</span>Receipt</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Multi-mode receipt issue — cash, cheque, DD, UPI, NEFT/IMPS/RTGS, card, wallet, payment link, NACH, auction proceeds, insurance claim</div><span class="ex">Same loan, multiple receipt types in one month: ₹19,180 cash at branch counter; ₹19,180 UPI via WhatsApp link; ₹26.5L auction proceeds; ₹18L insurance claim — all flow through the same receipt system.</span></li>
+              <li class="feature-item"><div class="feat">Provisional receipt (cheque-in-clearing) → final receipt on realisation</div><span class="ex">Cheque <code>#128341</code> ₹19,180 deposited 14-Apr → provisional receipt issued; cleared 16-Apr → final receipt; if bounced 16-Apr → reverse + ₹500 bounce charge raised same day.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">6.2</span>Payment posting</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Appropriation waterfall (charges → penal → interest → principal), configurable per product</div><span class="ex">₹19,180 received → ₹680 penal first → ₹4,200 interest → ₹14,300 principal (per product config). Different products can have different waterfalls; never hard-coded.</span></li>
+              <li class="feature-item"><div class="feat">Excess / suspense handling</div><span class="ex">Borrower paid ₹50,000 against ₹19,180 due → ₹19,180 to current EMI, ₹30,820 parked in suspense awaiting borrower instruction (prepay vs hold).</span></li>
+              <li class="feature-item"><div class="feat">Reversal on cheque bounce / chargeback with downstream un-do</div><span class="ex">Cheque bounce → reverse ₹19,180 from EMI → restore DPD to 21 → re-open the case → reverse PTP-kept flag → re-trigger strategy from the right node. No manual cleanup.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">6.3</span>Reconciliation</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Bank-statement-to-receipt match — auto + exception queue</div><span class="ex">Daily HDFC virtual-account file → auto-match 1,247 receipts; 23 exceptions (amount mismatch, unknown VA) queued for ops review with side-by-side compare.</span></li>
+              <li class="feature-item"><div class="feat">Cash custody reconciliation per FOS / branch / agency</div><span class="ex">Agent Ravi declared ₹47,500; deposit slip ₹47,500 — matched. Agent Suresh declared ₹32,000; deposit ₹31,500 → ₹500 shortage flagged, escalated to HR.</span></li>
+              <li class="feature-item"><div class="feat">PG / NACH file reconciliation</div><span class="ex">NPCI NACH file: 4,210 presented, 3,892 success, 318 bounce → bounce file auto-loaded, ₹500 bounce charge raised per case, strategy engine notified to switch channel.</span></li>
+              <li class="feature-item"><div class="feat">GL posting with sub-ledger tie-out</div><span class="ex">Each receipt posts to GL — interest-income, principal-reduction, penal-income — and sub-ledger balances tie out to GL daily; auditor's first ask, ready out-of-the-box.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">6.4</span>Settlement accounting</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">OTS waiver booking to P&amp;L with approval reference</div><span class="ex">₹4L waived on OTS → P&amp;L charge with reference <code>OTS-2026-0892, approved by Zonal Head Mr. Mehta</code>. Approval chain attached to the journal entry.</span></li>
+              <li class="feature-item"><div class="feat">Write-off entry with reason code; recovery from written-off booked to other-income</div><span class="ex">Account written off ₹2.1L Mar-2026, reason <code>UNTRACEABLE+TITLE-DISPUTE</code>; in Apr-2026 ₹50,000 recovered from auction proceeds → booked to "other income — w/o recovery".</span></li>
+              <li class="feature-item"><div class="feat">Provisioning automation per RBI/NHB IRAC norms</div><span class="ex">Bucket migration triggers provisioning: 31-60 → 0%, 61-90 → 0.4%, 90+ NPA → 15% sub-standard, >12mo → 25% doubtful-1, >24mo → 40% doubtful-2.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 9: IMPROVE -->
+    <article class="section-card" id="improve">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">09</div>
+        <div class="section-title">Job 07 — Improve — Measure and Learn</div>
+        <span class="section-badge info">Job</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p class="lead">A collection system that doesn't get smarter month-on-month is decaying.</p>
+
+          <div class="sub-block">
+            <h4><span class="num">7.1</span>Operational metrics</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Roll, flow, bounce, resolve, cure, recovery — sliced by bucket × segment × strategy × geography × agent × agency</div><span class="ex">Bucket 1-30 cure-rate dropped from 78% to 71% in last 30 days for self-employed segment in Tier-3 cities → drill-down shows it's concentrated in Bhiwadi cluster → investigate.</span></li>
+              <li class="feature-item"><div class="feat">Right-party-contact rate, PTP-kept rate, PTP-to-payment lag</div><span class="ex">Agent Ravi: RPC 64% vs team avg 52%; PTP-kept 41% vs team avg 38%; avg PTP→payment lag 2.1 days. Surfaces both stars and stragglers automatically.</span></li>
+              <li class="feature-item"><div class="feat">Cost-to-collect per ₹ recovered, by channel</div><span class="ex">WhatsApp ₹2 per ₹100 recovered; tele ₹18; field ₹85. Strategy engine must reflect this — route low-value cases to cheap channels first, every time.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">7.2</span>People metrics</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Agent productivity — calls, AHT, cure ₹, QA score, schedule adherence</div><span class="ex">Agent Ravi today: 142 calls, AHT 3:48, cure ₹4.2L, QA 87/100, schedule adherence 96%. Drives daily huddle, monthly appraisal, training assignments.</span></li>
+              <li class="feature-item"><div class="feat">Agency scorecard and payout calc</div><span class="ex">Agency XYZ: allocation ₹2.4Cr, recovery ₹38L, recovery-rate 15.8% vs benchmark 18% → payout slab kicks in: 5% on ₹0–10L recovered, 7% above.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">7.3</span>Strategy lab</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Champion-challenger results, statistical significance, auto-promote winning variant</div><span class="ex">Variant B (WhatsApp voice-note) lifted cure-rate by 4.2pp at p=0.03 vs Variant A (IVR) → auto-promoted to champion; Variant A archived for rollback.</span></li>
+              <li class="feature-item"><div class="feat">What-if simulator on historical data before rolling a new strategy</div><span class="ex">Run new strategy against last 6mo data → projected ₹12L incremental recovery, ₹1.8L extra channel cost → +ROI 5.7×; confidence interval shown so it isn't sold as a point estimate.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4><span class="num">7.4</span>Regulatory &amp; MIS</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">NHB / RBI return automation — NPA, restructure, write-off, customer-complaints</div><span class="ex">Quarterly NPA return auto-generated from the event stream — no manual extraction; auditor sees raw events behind every line item; cuts compliance prep from 2 weeks to 2 days.</span></li>
+              <li class="feature-item"><div class="feat">Board / risk-committee dashboards</div><span class="ex">GNPA, NNPA, recovery-rate, vintage curves, top-10 large exposures — refreshed nightly; CEO opens at 7am with coffee, doesn't wait for finance to email a deck.</span></li>
+              <li class="feature-item"><div class="feat">Vintage curves, static-pool analysis</div><span class="ex">FY24 originations show 90+ DPD at 2.1% by month-12 vs FY23 at 1.4% → tighten underwriting on similar borrower profile (self-employed, Tier-3, ticket >₹15L).</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 10: GUARDRAILS -->
+    <article class="section-card" id="guardrails">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">10</div>
+        <div class="section-title">Cross-Cutting — Guardrails (Compliance, Consent, Security)</div>
+        <span class="section-badge cross">Cross-Cutting</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p class="lead">Not features added on top — constraints baked into every other feature.</p>
+
+          <div class="sub-block">
+            <h4>Regulatory compliance</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">RBI Fair Practices Code — calling hours, language, decency, no third-party harassment</div><span class="ex">Outbound calls strictly 8am–7pm IST; agents trained on FPC; complaints auto-tracked against FPC clauses.</span></li>
+              <li class="feature-item"><div class="feat">RBI Digital Lending Directions (2025) — KFS, cooling-off, consent, data localisation, no dark patterns</div><span class="ex">Every customer-facing screen reviewed for dark-pattern compliance; data residency confirmed in audit logs.</span></li>
+              <li class="feature-item"><div class="feat">NHB Directions for HFCs — NPA recognition, recovery agent code, complaint handling</div><span class="ex">NPA recognition runs nightly per IRAC; recovery agents must hold valid IIBF certification before allocation.</span></li>
+              <li class="feature-item"><div class="feat">IBA / IIBF certified-agent registry; certification expiry tracking</div><span class="ex">Agent's IIBF certificate expires 30-Sep → system blocks fresh case allocation 15 days before; HR notified to renew.</span></li>
+              <li class="feature-item"><div class="feat">Recording-consent capture before recording</div><span class="ex">Voice-bot prompt at call open: "This call may be recorded for quality and compliance. Press 1 to consent." If 0 → no recording, agent advised.</span></li>
+              <li class="feature-item"><div class="feat">Per-borrower frequency cap (max-N-calls/day) enforced at the dialer, not in policy</div><span class="ex">Max 3 outbound voice attempts/day; dialer hard-stops on 4th — supervisor cannot override without an exception ticket.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4>Privacy &amp; security</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Field-level PII masking in agent UI based on role</div><span class="ex">Tele agent sees mobile as <code>9XXX-XX12</code>; supervisor sees full number on click-to-reveal with audit log entry.</span></li>
+              <li class="feature-item"><div class="feat">Tokenised storage of bank account / card / PAN</div><span class="ex">Bank account stored as token <code>tok_a8f4...</code>; raw value retrievable only via secure vault API with multi-factor auth.</span></li>
+              <li class="feature-item"><div class="feat">Consent ledger (DEPA-aligned) with revocation propagation</div><span class="ex">Borrower revokes WhatsApp consent in app → ledger updated → strategy engine drops WhatsApp for this borrower within 5 minutes.</span></li>
+              <li class="feature-item"><div class="feat">Access control — role + attribute-based, time-bound, geofenced for FOS app</div><span class="ex">FOS app only operational within 50km of agent's home branch geo-fence during shift hours; access auto-revoked off-shift.</span></li>
+              <li class="feature-item"><div class="feat">Data retention &amp; purge per data-class</div><span class="ex">Call recordings: 7 years; KYC: 10 years post-closure; complaints: 5 years; PII-purge runs monthly with legal-hold respected.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4>Customer redressal</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Complaint capture, SLA timers, ombudsman escalation path</div><span class="ex">Complaint logged → 7-day SLA for first response, 30-day for resolution; auto-escalate to RBI Ombudsman if breached.</span></li>
+              <li class="feature-item"><div class="feat">Hardship channel that bypasses normal collection treatment</div><span class="ex">Borrower flags hardship in self-service app → all collection actions paused for 7 days while case routed to hardship review team.</span></li>
+              <li class="feature-item"><div class="feat">Internal grievance redressal officer routing</div><span class="ex">Complaint about agent conduct routed directly to GRO with bypass on normal queues; case visible to compliance head dashboard.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 11: PLUMBING -->
+    <article class="section-card" id="plumbing">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">11</div>
+        <div class="section-title">Cross-Cutting — Plumbing (Integrations, Identity, Configuration)</div>
+        <span class="section-badge cross">Cross-Cutting</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p class="lead">Without these the module is an island.</p>
+
+          <div class="sub-block">
+            <h4>Integrations (must-have, not nice-to-have)</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">LOS / LMS — bidirectional account state</div><span class="ex">LMS pushes EMI, balances, schedule changes to collections; collections pushes back DPD, dispositions, PTPs, recoveries. Single canonical loan record.</span></li>
+              <li class="feature-item"><div class="feat">Core banking / GL</div><span class="ex">Each receipt posts to core banking GL daily; sub-ledger reconciles to GL nightly with auto-exception report.</span></li>
+              <li class="feature-item"><div class="feat">Credit bureaus — CIBIL, CRIF, Equifax, Experian (pull and report)</div><span class="ex">Monthly bureau reporting of delinquency status; on-demand pull for skip-trace, OTS underwriting.</span></li>
+              <li class="feature-item"><div class="feat">Payment rails — NACH (NPCI), UPI / collect, PG, BBPS, cards</div><span class="ex">Customer pays via UPI, NACH, BBPS, card link, or branch — all flow into one receipt + reconciliation pipeline.</span></li>
+              <li class="feature-item"><div class="feat">Telephony — SIP trunks, dialer, recording storage</div><span class="ex">Predictive dialer integrated to PSTN via SIP; recordings archived in S3 with 7-year retention; agent extension and CRM popup on call connect.</span></li>
+              <li class="feature-item"><div class="feat">Messaging — SMS aggregator + DLT, WhatsApp BSP, email ESP</div><span class="ex">SMS via TRAI-approved DLT templates; WhatsApp via Karix BSP; email via SendGrid with deliverability tracking.</span></li>
+              <li class="feature-item"><div class="feat">Account aggregator (consent-based bank statements)</div><span class="ex">Borrower consents via AA → 6 months of bank statements pulled in 30 seconds; analyzed for income stability before OTS approval.</span></li>
+              <li class="feature-item"><div class="feat">Bureau alerts / alternate-data signals (income, employment, recharge proxies)</div><span class="ex">Borrower's mobile recharge pattern drops to ₹0 for 60 days → early-warning signal of income disruption → soft-touch outreach before EMI due.</span></li>
+              <li class="feature-item"><div class="feat">E-sign / e-stamp / digital-locker</div><span class="ex">Restructure agreement e-stamped via SHCIL, e-signed via Aadhaar OTP, stored in DigiLocker with borrower's consent — all in one flow.</span></li>
+              <li class="feature-item"><div class="feat">Court / e-auction platforms (MSTC, NeML)</div><span class="ex">SARFAESI auctions published directly to MSTC from collections module; bidder data flows back with reserve-price audit trail.</span></li>
+              <li class="feature-item"><div class="feat">HRMS for agent master + skill + roster</div><span class="ex">Agent skill tag "Hindi-fluent + housing-finance-trained + Bhiwadi-region" pulled from HRMS; allocation engine respects on assignment.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4>Master data &amp; identity</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Single canonical borrower ID across products</div><span class="ex">Mr. Sharma has home loan, top-up, and personal loan — all under one Customer ID; cross-default visible across products.</span></li>
+              <li class="feature-item"><div class="feat">Product, charge, fee, penal-rate, communication-template masters with effective dating</div><span class="ex">Penal rate raised from 2% to 2.5% effective 1-Jul-2026 → existing loans use old rate, new loans use new — both rules retained for audit.</span></li>
+              <li class="feature-item"><div class="feat">Reason-code taxonomy — single source for dispositions, write-off reasons, complaint reasons</div><span class="ex">"Will not pay – financial hardship" is the same code in tele dispositions, field dispositions, and write-off reasons; reporting roll-up just works.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4>Configuration as a product capability</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Business-user configurability — strategy trees, allocation rules, dunning calendars, templates, scorecard weights, waterfall, delegation matrix, SLA timers — without code change</div><span class="ex">Ops head adds new SMS template, gets it DLT-approved, rolls it out to a segment — all in one afternoon, no engineer involved.</span></li>
+              <li class="feature-item"><div class="feat">Versioning, approval workflow, sandbox-test-then-promote on every config change</div><span class="ex">New strategy tree drafted → sandbox-tested on 5% sample → diff reviewed → approved by risk → promoted to production with rollback button visible.</span></li>
+              <li class="feature-item"><div class="feat">Config diff and rollback</div><span class="ex">Strategy change made yesterday spiked complaints by 40% → one-click rollback to previous config; full diff log retained for post-mortem.</span></li>
+            </ul>
+          </div>
+
+          <div class="sub-block">
+            <h4>Platform qualities</h4>
+            <ul class="feature-list">
+              <li class="feature-item"><div class="feat">Multi-entity / multi-product / multi-currency from day one</div><span class="ex">Same module serves the parent HFC and a new co-lending JV without forking; ledger and reporting separate at entity level, ops-shared.</span></li>
+              <li class="feature-item"><div class="feat">API-first — every UI action available as API</div><span class="ex">Bot framework, partner portal, mobile app — all consume the same APIs the web UI uses; no UI-only features.</span></li>
+              <li class="feature-item"><div class="feat">Event-driven extensibility — webhook on bucket roll, on PTP, on receipt</div><span class="ex">Partner co-lender subscribes to "bucket-roll" webhook → gets near-real-time delinquency view of their share without daily file exchange.</span></li>
+              <li class="feature-item"><div class="feat">Observability — per-feature SLOs, event-replay capability</div><span class="ex">"Send WhatsApp" feature has SLO 99.5% delivery in 60s; breach pages on-call; broken pipeline can be replayed from event stream once fixed.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 12: AHFC -->
+    <article class="section-card" id="ahfc">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">12</div>
+        <div class="section-title">AHFC-Specific Nuances</div>
+        <span class="section-badge important">AHFC</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p>The seven jobs apply to any lender. An Affordable Housing Finance Company has four extras that genuinely change feature requirements (not just thresholds). They raise the bar on jobs 1, 3, 4, and 5 — not new jobs, sharper requirements.</p>
+          <div class="ahfc-grid">
+            <div class="ahfc-card"><div class="num">01</div><h5>Mortgage as Collateral</h5><p>SARFAESI workflow + property valuation + auction module are core, not optional. Property auction <em>is</em> the AHFC's repossession.</p></div>
+            <div class="ahfc-card"><div class="num">02</div><h5>Long Tenor (15–30 yrs)</h5><p>Contactability decays over the loan life. Periodic KYC / contact-refresh is a feature, not a project.</p></div>
+            <div class="ahfc-card"><div class="num">03</div><h5>Informal-Income Borrowers</h5><p>Field collections dominate. FOS module quality is the single biggest lever on cure rate.</p></div>
+            <div class="ahfc-card"><div class="num">04</div><h5>Household Liability</h5><p>The "borrower" is a household — applicant + co-applicant + guarantor. Data model must reflect that everywhere.</p></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 13: MVP -->
+    <article class="section-card" id="mvp">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">13</div>
+        <div class="section-title">Minimum Viable Cut — One Feature per Job</div>
+        <span class="section-badge important">Anchor</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p class="lead">The smallest collections module that actually works for an AHFC. Everything else is layered on later.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Job</th><th>MVP Feature</th><th>Why It Can't Be Skipped</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Sense</td><td>Live DPD + bucket + 360 view</td><td>Without state, no action is correct</td></tr>
+                <tr><td>Decide</td><td>DPD-bucket rules engine + manual allocation</td><td>A rules engine beats nothing; ML can wait</td></tr>
+                <tr><td>Reach</td><td>SMS + IVR + agent dialer + field app</td><td>Covers >90% of contact attempts</td></tr>
+                <tr><td>Act</td><td>Payment link + tele-call + field visit + Sec 138 + SARFAESI 13(2)/13(4)</td><td>The legally-required acts for secured retail</td></tr>
+                <tr><td>Record</td><td>Disposition + PTP + recording + document vault</td><td>Required for audit and any legal action</td></tr>
+                <tr><td>Settle</td><td>Receipt + waterfall + bank recon + GL post</td><td>Money in wrong account = unrecovered</td></tr>
+                <tr><td>Improve</td><td>Roll-rate + agent productivity + RPC%</td><td>Three numbers steer 80% of decisions</td></tr>
+                <tr><td>Guardrails</td><td>Calling-hours + DND + recording-consent + audit log</td><td>Regulatory floor</td></tr>
+                <tr><td>Plumbing</td><td>LMS + payment rails + telephony + SMS/WhatsApp + bureau</td><td>Without these the module is an island</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 14: ANTI-FEATURES -->
+    <article class="section-card" id="anti">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">14</div>
+        <div class="section-title">Anti-Features — What NOT to Build</div>
+        <span class="section-badge cross">Discipline</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p>First-principles thinking is also subtraction. Common bloat to avoid:</p>
+          <div class="anti-grid">
+            <div class="anti-item"><strong>A second source of truth for the loan ledger</strong><span>The LMS owns it; collections projects from it.</span></div>
+            <div class="anti-item"><strong>A bespoke dialer when a best-of-breed exists</strong><span>Integrate, don't rebuild.</span></div>
+            <div class="anti-item"><strong>A "CRM" layer duplicating customer 360</strong><span>One borrower record, many views.</span></div>
+            <div class="anti-item"><strong>Static reports the strategy team can't modify</strong><span>Reports from the event stream = live.</span></div>
+            <div class="anti-item"><strong>Hard-coded strategy trees</strong><span>Every rule must be config; otherwise every change is a release.</span></div>
+            <div class="anti-item"><strong>Vanity ML</strong><span>A model that doesn't change an action isn't a feature.</span></div>
+            <div class="anti-item"><strong>Over-modelled "case" abstraction</strong><span>Cases are a projection over account + borrower + events, not a primitive.</span></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 15: GLOSSARY -->
+    <article class="section-card" id="glossary">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">15</div>
+        <div class="section-title">Glossary</div>
+        <span class="section-badge cross">Reference</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p>Acronyms and domain terms used in this document, grouped by area. Definitions are scoped to the way the term is used in Indian retail / housing-finance collections.</p>
+
+          <div class="glossary-group">
+            <h5>Risk &amp; Credit</h5>
+            <dl class="glossary-list">
+              <div class="term"><dt>DPD <span class="full">Days Past Due</span></dt><dd>Number of days an EMI is overdue. Drives bucket assignment.</dd></div>
+              <div class="term"><dt>EMI <span class="full">Equated Monthly Instalment</span></dt><dd>Fixed monthly repayment of principal + interest over the loan tenor.</dd></div>
+              <div class="term"><dt>Bucket</dt><dd>DPD-based account categorisation: 0, 1-30, 31-60, 61-90, 90+, NPA, written-off.</dd></div>
+              <div class="term"><dt>NPA <span class="full">Non-Performing Asset</span></dt><dd>Account where principal/interest is overdue >90 days; triggers higher provisioning.</dd></div>
+              <div class="term"><dt>GNPA / NNPA</dt><dd>Gross / Net NPA — total bad-loan stock, before and after provisioning.</dd></div>
+              <div class="term"><dt>PD <span class="full">Probability of Default</span></dt><dd>Likelihood a borrower defaults within a horizon (typically 12 months).</dd></div>
+              <div class="term"><dt>EAD <span class="full">Exposure at Default</span></dt><dd>Outstanding amount at the moment a default is recognised.</dd></div>
+              <div class="term"><dt>LGD <span class="full">Loss Given Default</span></dt><dd>Share of EAD the lender expects to lose after recovery. Low for AHFC because loans are mortgage-secured.</dd></div>
+              <div class="term"><dt>EL <span class="full">Expected Loss</span></dt><dd>EL = PD × LGD × EAD. Drives provisioning and pricing.</dd></div>
+              <div class="term"><dt>ECL <span class="full">Expected Credit Loss</span></dt><dd>Forward-looking loss estimate under Ind AS 109.</dd></div>
+              <div class="term"><dt>IRAC</dt><dd>RBI's Income Recognition, Asset Classification &amp; Provisioning norms — defines NPA and provisioning slabs.</dd></div>
+              <div class="term"><dt>NPV <span class="full">Net Present Value</span></dt><dd>Discounted value of future cash flows; used to measure restructuring impact.</dd></div>
+              <div class="term"><dt>ROI <span class="full">Rate of Interest</span></dt><dd>Annual interest rate applied to the loan principal.</dd></div>
+            </dl>
+          </div>
+
+          <div class="glossary-group">
+            <h5>Collections Operations</h5>
+            <dl class="glossary-list">
+              <div class="term"><dt>PTP <span class="full">Promise to Pay</span></dt><dd>Borrower's commitment to pay a specific amount by a specific date.</dd></div>
+              <div class="term"><dt>P-recovery <span class="full">Probability of Recovery</span></dt><dd>Model-estimated probability that a delinquent case will be recovered within a horizon. Used for queue prioritisation.</dd></div>
+              <div class="term"><dt>Propensity-to-Pay / Cure / Roll</dt><dd>Model scores for: paying this EMI, returning to current bucket, or rolling forward to a worse bucket.</dd></div>
+              <div class="term"><dt>RPC <span class="full">Right Party Contact</span></dt><dd>Successful contact with the borrower (not a family member). RPC% is a primary collections KPI.</dd></div>
+              <div class="term"><dt>RNR <span class="full">Ring No Response</span></dt><dd>Outbound call rang but was not answered.</dd></div>
+              <div class="term"><dt>AHT <span class="full">Average Handle Time</span></dt><dd>Average duration an agent spends on a call including hold and wrap.</dd></div>
+              <div class="term"><dt>NBA <span class="full">Next Best Action</span></dt><dd>The single recommended action surfaced to the agent or system at this moment.</dd></div>
+              <div class="term"><dt>Roll Rate</dt><dd>% of accounts moving from one bucket to the next worse bucket in a period.</dd></div>
+              <div class="term"><dt>Flow Rate</dt><dd>% of new entrants into a bucket relative to the prior bucket size — leading indicator.</dd></div>
+              <div class="term"><dt>Cure Rate</dt><dd>% of delinquent accounts that return to current (0 DPD) within a window.</dd></div>
+              <div class="term"><dt>OTS <span class="full">One-Time Settlement</span></dt><dd>Negotiated settlement where borrower pays a discounted lump sum to close the account.</dd></div>
+              <div class="term"><dt>Re-aging</dt><dd>Re-classifying a previously delinquent account back to standard after sustained on-time payment.</dd></div>
+              <div class="term"><dt>Champion-Challenger</dt><dd>A/B test framework that runs current ("champion") strategy against a variant ("challenger") on matched cohorts.</dd></div>
+              <div class="term"><dt>Skip-tracing</dt><dd>Process of locating a borrower whose contact details have gone stale.</dd></div>
+              <div class="term"><dt>FOS <span class="full">Field Officer / Feet on Street</span></dt><dd>Field collections agent who visits borrowers in person.</dd></div>
+              <div class="term"><dt>FPC <span class="full">Fair Practices Code</span></dt><dd>RBI's mandatory code on lender conduct — calling hours, decency, no harassment.</dd></div>
+            </dl>
+          </div>
+
+          <div class="glossary-group">
+            <h5>Payments &amp; Banking</h5>
+            <dl class="glossary-list">
+              <div class="term"><dt>UPI <span class="full">Unified Payments Interface</span></dt><dd>NPCI's instant retail payment rail; primary digital collection channel in India.</dd></div>
+              <div class="term"><dt>VPA <span class="full">Virtual Payment Address</span></dt><dd>UPI handle (e.g., <code>name@bank</code>) used as the destination for payments.</dd></div>
+              <div class="term"><dt>NACH <span class="full">National Automated Clearing House</span></dt><dd>NPCI rail for bulk recurring debits (EMIs); replaces ECS.</dd></div>
+              <div class="term"><dt>e-NACH / e-mandate</dt><dd>Electronic mandate set up via Aadhaar OTP or net-banking; enables auto-debit of EMIs.</dd></div>
+              <div class="term"><dt>NPCI</dt><dd>National Payments Corporation of India — operator of UPI, NACH, IMPS.</dd></div>
+              <div class="term"><dt>NEFT / IMPS / RTGS</dt><dd>RBI / NPCI inter-bank transfer rails — batched, instant, and high-value real-time respectively.</dd></div>
+              <div class="term"><dt>BBPS <span class="full">Bharat Bill Payment System</span></dt><dd>NPCI rail for bill payments including loan EMIs.</dd></div>
+              <div class="term"><dt>PG <span class="full">Payment Gateway</span></dt><dd>Third-party service that brokers cards / netbanking / wallet payments to a merchant.</dd></div>
+              <div class="term"><dt>PDC <span class="full">Post-Dated Cheque</span></dt><dd>Cheque dated for future presentation; legacy EMI mechanism, fading.</dd></div>
+              <div class="term"><dt>GL <span class="full">General Ledger</span></dt><dd>The lender's master accounting ledger; all collections must reconcile back to it.</dd></div>
+              <div class="term"><dt>POS <span class="full">Point of Sale</span></dt><dd>Card-payment terminal; FOS agents may carry mobile POS for on-spot collection.</dd></div>
+              <div class="term"><dt>Waterfall</dt><dd>Configured order in which a payment is appropriated: typically charges → penal → interest → principal.</dd></div>
+            </dl>
+          </div>
+
+          <div class="glossary-group">
+            <h5>Channels &amp; Communication</h5>
+            <dl class="glossary-list">
+              <div class="term"><dt>IVR <span class="full">Interactive Voice Response</span></dt><dd>Automated voice menu that interacts with the borrower without an agent.</dd></div>
+              <div class="term"><dt>Voice-bot</dt><dd>AI-driven conversational voice interface; can capture intent and warm-transfer to an agent.</dd></div>
+              <div class="term"><dt>BSP <span class="full">Business Solution Provider</span></dt><dd>Authorised partner that brokers WhatsApp Business API access (e.g., Karix, Gupshup).</dd></div>
+              <div class="term"><dt>DLT <span class="full">Distributed Ledger Telecom</span></dt><dd>TRAI's registry of approved SMS sender IDs and templates; non-registered SMS gets blocked.</dd></div>
+              <div class="term"><dt>DND <span class="full">Do Not Disturb</span></dt><dd>TRAI registry of phone numbers opted out of commercial calls / SMS.</dd></div>
+              <div class="term"><dt>Predictive / Progressive / Preview Dialer</dt><dd>Three dialer modes — auto-dial multiple lines, dial-on-agent-availability, agent-reviews-then-dials.</dd></div>
+              <div class="term"><dt>Whisper / Barge</dt><dd>Supervisor coaching modes: whisper (only agent hears) and barge (joins live call).</dd></div>
+              <div class="term"><dt>SLA <span class="full">Service Level Agreement</span></dt><dd>Time-bound commitment to act on a case (e.g., complaint response within 7 days).</dd></div>
+            </dl>
+          </div>
+
+          <div class="glossary-group">
+            <h5>Legal &amp; Recovery</h5>
+            <dl class="glossary-list">
+              <div class="term"><dt>SARFAESI</dt><dd>Securitisation and Reconstruction of Financial Assets and Enforcement of Security Interest Act, 2002 — lets secured creditors enforce security without court.</dd></div>
+              <div class="term"><dt>Section 13(2)</dt><dd>SARFAESI demand notice to defaulting borrower; 60-day reply window before further action.</dd></div>
+              <div class="term"><dt>Section 13(4)</dt><dd>SARFAESI possession (symbolic or physical) of secured asset after 13(2) period lapses.</dd></div>
+              <div class="term"><dt>Section 13(8)</dt><dd>SARFAESI sale notice — 30-day notice before auction.</dd></div>
+              <div class="term"><dt>Section 14</dt><dd>SARFAESI provision to seek District Magistrate assistance in taking physical possession.</dd></div>
+              <div class="term"><dt>Section 17</dt><dd>SARFAESI appeal mechanism to DRT against bank's enforcement action.</dd></div>
+              <div class="term"><dt>Section 138 NI Act</dt><dd>Negotiable Instruments Act provision making cheque dishonour a criminal offence.</dd></div>
+              <div class="term"><dt>DRT <span class="full">Debt Recovery Tribunal</span></dt><dd>Specialised tribunal for bank/FI debt recovery suits and SARFAESI appeals.</dd></div>
+              <div class="term"><dt>NCLT <span class="full">National Company Law Tribunal</span></dt><dd>Forum for insolvency resolution under IBC; relevant for corporate borrowers and personal guarantors.</dd></div>
+              <div class="term"><dt>Lok Adalat</dt><dd>Statutory people's court for amicable settlement; binding award, no appeal.</dd></div>
+              <div class="term"><dt>AD / POD</dt><dd>Acknowledgement Due / Proof of Delivery — postal evidence that a notice was delivered.</dd></div>
+              <div class="term"><dt>e-stamp</dt><dd>Electronic stamp paper purchased via SHCIL; replaces physical stamp for legal documents.</dd></div>
+              <div class="term"><dt>e-sign / DSC</dt><dd>Electronic signature via Aadhaar OTP / Digital Signature Certificate; legally valid under IT Act.</dd></div>
+              <div class="term"><dt>Panchnama</dt><dd>Witnessed record of a possession or seizure event; required under SARFAESI 13(4).</dd></div>
+              <div class="term"><dt>Reserve Price</dt><dd>Minimum acceptable bid in an auction, set against the property valuation.</dd></div>
+              <div class="term"><dt>EMD <span class="full">Earnest Money Deposit</span></dt><dd>Refundable deposit a bidder must pay to participate in an auction.</dd></div>
+              <div class="term"><dt>IT Act §65B</dt><dd>Indian Evidence Act provision governing admissibility of electronic records as evidence.</dd></div>
+            </dl>
+          </div>
+
+          <div class="glossary-group">
+            <h5>Regulatory Bodies &amp; Frameworks</h5>
+            <dl class="glossary-list">
+              <div class="term"><dt>RBI</dt><dd>Reserve Bank of India — primary regulator for banks and NBFCs / HFCs.</dd></div>
+              <div class="term"><dt>NHB <span class="full">National Housing Bank</span></dt><dd>Apex housing-finance regulator (now under RBI); issues HFC-specific directions.</dd></div>
+              <div class="term"><dt>HFC / AHFC</dt><dd>Housing Finance Company / Affordable Housing Finance Company — the latter focuses on low-ticket borrowers in Tier-2/3 markets.</dd></div>
+              <div class="term"><dt>KFS <span class="full">Key Fact Statement</span></dt><dd>RBI-mandated standard disclosure of loan terms before sanction.</dd></div>
+              <div class="term"><dt>Digital Lending Directions 2025</dt><dd>RBI's framework on digital lending — KFS, cooling-off, consent, no dark patterns.</dd></div>
+              <div class="term"><dt>IIBF / IBA</dt><dd>Indian Institute of Banking and Finance / Indian Banks' Association — recovery agents must hold IIBF certification.</dd></div>
+              <div class="term"><dt>TRAI</dt><dd>Telecom Regulatory Authority of India — operates DLT and DND regimes.</dd></div>
+              <div class="term"><dt>DEPA</dt><dd>Data Empowerment and Protection Architecture — India's consent framework underlying Account Aggregator.</dd></div>
+              <div class="term"><dt>Account Aggregator</dt><dd>RBI-licensed framework for consent-based sharing of financial data (e.g., bank statements).</dd></div>
+              <div class="term"><dt>IBC</dt><dd>Insolvency and Bankruptcy Code, 2016 — adjudicates corporate and individual insolvency.</dd></div>
+              <div class="term"><dt>Ind AS 109</dt><dd>Indian Accounting Standard governing financial-instrument classification and ECL provisioning.</dd></div>
+            </dl>
+          </div>
+
+          <div class="glossary-group">
+            <h5>Systems &amp; Identifiers</h5>
+            <dl class="glossary-list">
+              <div class="term"><dt>LMS <span class="full">Loan Management System</span></dt><dd>System of record for the loan book — schedule, ledger, accruals.</dd></div>
+              <div class="term"><dt>LOS <span class="full">Loan Origination System</span></dt><dd>System that handles application, underwriting, and disbursal.</dd></div>
+              <div class="term"><dt>CRM <span class="full">Customer Relationship Management</span></dt><dd>System for managing customer interactions; collections often pulls from but doesn't duplicate it.</dd></div>
+              <div class="term"><dt>MIS <span class="full">Management Information System</span></dt><dd>Reporting and dashboard layer for management and regulators.</dd></div>
+              <div class="term"><dt>KYC / e-KYC</dt><dd>Know Your Customer — identity verification process, electronic via Aadhaar.</dd></div>
+              <div class="term"><dt>PAN</dt><dd>Permanent Account Number — issued by Income Tax Dept; primary financial ID in India.</dd></div>
+              <div class="term"><dt>Aadhaar</dt><dd>UIDAI 12-digit unique ID; basis for biometric / OTP-based verification.</dd></div>
+              <div class="term"><dt>CIBIL / CRIF / Equifax / Experian</dt><dd>The four RBI-licensed credit information companies (bureaus).</dd></div>
+              <div class="term"><dt>NSDL</dt><dd>National Securities Depository Limited — also operates PAN verification.</dd></div>
+              <div class="term"><dt>SHCIL</dt><dd>Stock Holding Corporation of India — central record-keeper for e-stamping.</dd></div>
+              <div class="term"><dt>MSTC</dt><dd>Govt-owned e-auction platform widely used for SARFAESI auctions.</dd></div>
+              <div class="term"><dt>EPFO</dt><dd>Employees' Provident Fund Organisation — used for employer / income verification.</dd></div>
+              <div class="term"><dt>WORM <span class="full">Write Once Read Many</span></dt><dd>Storage that disallows modification after write; used for tamper-evident audit trails.</dd></div>
+              <div class="term"><dt>NOC <span class="full">No Objection Certificate</span></dt><dd>Lender's release confirming no further claim on a property after loan closure.</dd></div>
+            </dl>
+          </div>
+
+          <div class="glossary-group">
+            <h5>Statistical &amp; Analytics</h5>
+            <dl class="glossary-list">
+              <div class="term"><dt>p-value</dt><dd>Probability that an observed result is due to chance under the null hypothesis; lower = more confident.</dd></div>
+              <div class="term"><dt>pp <span class="full">percentage points</span></dt><dd>Absolute difference between two percentages — e.g., 78% to 71% is a 7pp drop, not "7% drop".</dd></div>
+              <div class="term"><dt>Vintage Analysis</dt><dd>Tracking delinquency by origination cohort (e.g., FY24 originations) to compare quality across periods.</dd></div>
+              <div class="term"><dt>Static Pool</dt><dd>A fixed cohort of accounts tracked over time without additions — clean view of true performance.</dd></div>
+              <div class="term"><dt>EV <span class="full">Expected Value</span></dt><dd>P-recovery × Amount × Time-decay; used to rank cases in agent queues.</dd></div>
+            </dl>
+          </div>
+
+        </div>
+      </div>
+    </article>
+
+    <div class="doc-footer">
+      COLLECTIONS · FEATURE LIST · v2.0
+    </div>
+
+  </div>
+</main>
+
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<script>
+  // Section toggling
+  function toggleSection(headerEl) {
+    const card = headerEl.closest('.section-card');
+    card.classList.toggle('open');
+  }
+
+  // Sidebar toggle (mobile)
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('active');
+  }
+
+  // Smooth scroll + auto-expand target section
+  document.querySelectorAll('.nav-item').forEach(link => {
+    link.addEventListener('click', e => {
+      const href = link.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (!target) return;
+      // Auto-open the target card if it's a section-card
+      if (target.classList.contains('section-card')) {
+        target.classList.add('open');
+      }
+      // Close mobile sidebar
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarOverlay').classList.remove('active');
+      // Scroll
+      const headerOffset = 80;
+      const elementPosition = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+    });
+  });
+
+  // Reading progress bar
+  const progressFill = document.getElementById('progressFill');
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
+    progressFill.style.width = pct + '%';
+    if (scrollTop > 500) backToTop.classList.add('visible');
+    else backToTop.classList.remove('visible');
+  });
+
+  // Intersection Observer — track active section in sidebar
+  const navItems = document.querySelectorAll('.nav-item');
+  const sectionMap = new Map();
+  navItems.forEach(item => {
+    const href = item.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      const id = href.slice(1);
+      sectionMap.set(id, item);
+    }
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const id = entry.target.id;
+      const navItem = sectionMap.get(id);
+      if (!navItem) return;
+      if (entry.isIntersecting) {
+        navItems.forEach(n => n.classList.remove('active'));
+        navItem.classList.add('active');
+        navItem.classList.add('visited');
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px' });
+
+  document.querySelectorAll('.section-card, .hero').forEach(s => observer.observe(s));
+
+  // Search — TreeWalker-based highlighting
+  const searchInput = document.getElementById('searchInput');
+  let searchTimeout = null;
+
+  function clearHighlights(root) {
+    root.querySelectorAll('mark').forEach(mark => {
+      const parent = mark.parentNode;
+      parent.replaceChild(document.createTextNode(mark.textContent), mark);
+      parent.normalize();
+    });
+  }
+
+  function highlightTextNodes(el, regex) {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+      acceptNode: node => {
+        if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        const parentTag = node.parentNode.nodeName;
+        if (['SCRIPT', 'STYLE', 'MARK'].includes(parentTag)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    const textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+    let firstMatch = null;
+    textNodes.forEach(node => {
+      if (regex.test(node.nodeValue)) {
+        regex.lastIndex = 0;
+        const frag = document.createDocumentFragment();
+        let last = 0, match;
+        while ((match = regex.exec(node.nodeValue)) !== null) {
+          if (match.index > last) frag.appendChild(document.createTextNode(node.nodeValue.slice(last, match.index)));
+          const mark = document.createElement('mark');
+          mark.textContent = match[0];
+          if (!firstMatch) firstMatch = mark;
+          frag.appendChild(mark);
+          last = regex.lastIndex;
+        }
+        if (last < node.nodeValue.length) frag.appendChild(document.createTextNode(node.nodeValue.slice(last)));
+        node.parentNode.replaceChild(frag, node);
+      }
+    });
+    return firstMatch;
+  }
+
+  function runSearch() {
+    const q = searchInput.value.trim();
+    const main = document.querySelector('.main');
+    clearHighlights(main);
+    if (!q || q.length < 2) return;
+    const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(escaped, 'gi');
+    const firstMatch = highlightTextNodes(main, regex);
+    // Auto-expand cards that contain a match
+    document.querySelectorAll('.section-card').forEach(card => {
+      if (card.querySelector('mark')) card.classList.add('open');
+    });
+    if (firstMatch) {
+      firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  searchInput.addEventListener('input', () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(runSearch, 200);
+  });
+
+  // Ctrl+K / Cmd+K to focus search
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      searchInput.focus();
+      searchInput.select();
+    }
+    if (e.key === 'Escape' && document.activeElement === searchInput) {
+      searchInput.value = '';
+      runSearch();
+      searchInput.blur();
+    }
+  });
+</script>
+
+</body>
+</html>
