@@ -1,12 +1,2 @@
 .DS_Store
 .claude/
-*.pdf
-*.xlsx
-*.py
-
-# vendor-comparison drafts kept local
-AHFC_Collections_Modules_Research.md
-Collections_Module_Feature_List_FirstPrinciples.md
-Collections_Module_Feature_List_FirstPrinciples.html
-feature_comparison_slide.html
-feature_comparison_slide_dark.html

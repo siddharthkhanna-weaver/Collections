@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omnifin vs Spocto - Feature Comparison</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --accent-blue: #38bdf8;
+            --accent-purple: #818cf8;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --yes-color: #4ade80;
+            --no-color: #f87171;
+            --info-color: #fbbf24;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            overflow-x: hidden;
+        }
+
+        .slide-container {
+            width: 100%;
+            max-width: 1200px;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-container {
+            margin-bottom: 24px;
+        }
+
+        .logo-container img {
+            max-height: 50px;
+            width: auto;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            font-weight: 300;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        th {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 16px 24px;
+            text-align: center;
+            color: var(--text-main);
+            font-size: 0.9rem;
+        }
+
+        th:first-child {
+            text-align: left;
+        }
+
+        td {
+            padding: 16px 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        td:first-child {
+            border-left: 1px solid var(--glass-border);
+            border-radius: 12px 0 0 12px;
+            font-weight: 500;
+            width: 40%;
+        }
+
+        td:last-child {
+            border-right: 1px solid var(--glass-border);
+            border-radius: 0 12px 12px 0;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            min-width: 80px;
+        }
+
+        .status-yes {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--yes-color);
+        }
+
+        .status-no {
+            background: rgba(248, 113, 113, 0.15);
+            color: var(--no-color);
+        }
+
+        .status-info {
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--info-color);
+            text-transform: none;
+        }
+
+        .system-header {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .omnifin-txt {
+            color: var(--accent-blue);
+        }
+
+        .spocto-txt {
+            color: var(--accent-purple);
+        }
+
+        .footer {
+            margin-top: 32px;
+            text-align: right;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        /* Responsive Scrollbar */
+        .table-wrapper {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .table-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background: var(--accent-blue);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="slide-container">
+        <header>
+            <div class="logo-container">
+                <img src="file:///Users/siddharthkhanna/Documents/Design /Partner Onboarding App V2/Logo.png"
+                    alt="PeopleHome Logo">
+            </div>
+            <h1>Feature Availability Matrix</h1>
+            <p class="subtitle">System Comparison: Omnifin vs. Spocto Collection Ecosystem</p>
+        </header>
+
+        <div class="table-wrapper">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Features</th>
+                        <th><span class="system-header omnifin-txt">Omnifin</span></th>
+                        <th><span class="system-header spocto-txt">Spocto</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Case information flow to Collection Module</td>
+                        <td align="center"><span class="status-pill status-info">LMS/Debt Integrated</span></td>
+                        <td align="center"><span class="status-pill status-info">API / File Transfer</span></td>
+                    </tr>
+                    <tr>
+                        <td>Communication Orchestration (SMS, Email, WhatsApp)</td>
+                        <td align="center"><span class="status-pill status-no">NO</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Concurrent Allocation to Field/Call Center/Digital</td>
+                        <td align="center"><span class="status-pill status-no">NO</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Cross-Channel feedback trail for cases</td>
+                        <td align="center"><span class="status-pill status-no">NO</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Platform for Call Centre</td>
+                        <td align="center"><span class="status-pill status-no">NO</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Dialler Integration</td>
+                        <td align="center"><span class="status-pill status-no">NO</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Platform for Field Team</td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Field Allocation basis RM Location</td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Route Optimization in App</td>
+                        <td align="center"><span class="status-pill status-no">NO</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Cash Receipt communication to Customer</td>
+                        <td align="center"><span class="status-pill status-info">Via Payin Slip</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Agent Route Tracking</td>
+                        <td align="center"><span class="status-pill status-no">NO</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Upload Photos using Camera</td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Upload Photos using Gallery</td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                        <td align="center"><span class="status-pill status-no">NO</span></td>
+                    </tr>
+                    <tr>
+                        <td>Geotagging</td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Disposition Management</td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Communication to Customer on Dispositions</td>
+                        <td align="center"><span class="status-pill status-no">NO</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Probability to Pay (Scoring)</td>
+                        <td align="center"><span class="status-pill status-no">NO</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Digital Payment Collection</td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                    </tr>
+                    <tr>
+                        <td>Apportionment of Digital Collection (Manual Entry)</td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                        <td align="center"><span class="status-pill status-no">NO</span></td>
+                    </tr>
+                    <tr>
+                        <td>Mechanism to capture maker receipt entry</td>
+                        <td align="center"><span class="status-pill status-yes">YES</span></td>
+                        <td align="center"><span class="status-pill status-no">NO</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
