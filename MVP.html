@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collections Module — MVP Feature List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1b4645;
+    --primary-dark: #153534;
+    --primary-light: #d8e6d5;
+    --accent: #357b38;
+    --success: #357b38;
+    --warning: #ffbe36;
+    --danger: #f44336;
+    --gray-50: #f8f7f1;
+    --gray-100: #f0efea;
+    --gray-200: #eaebea;
+    --gray-300: #d1d2d1;
+    --gray-400: #9a9b9a;
+    --gray-500: #757a76;
+    --gray-600: #4b5150;
+    --gray-700: #374140;
+    --gray-800: #0e100f;
+    --gray-900: #0e100f;
+    --sidebar-w: 280px;
+    --header-h: 64px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* HEADER */
+  .header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .header-left { display: flex; align-items: center; gap: 14px; flex: 1; }
+  .menu-toggle {
+    display: none;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: -0.02em;
+  }
+  .header-title { color: #fff; font-size: 14px; font-weight: 500; }
+  .header-title strong { font-weight: 600; }
+  .header-title .sep { margin: 0 10px; opacity: 0.5; }
+  .header-title .sub { opacity: 0.85; font-weight: 400; }
+  .header-back {
+    color: #fff;
+    text-decoration: none;
+    font-size: 12.5px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.12);
+    transition: background 0.2s ease;
+    margin-left: 12px;
+  }
+  .header-back:hover { background: rgba(255,255,255,0.22); }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    position: fixed;
+    top: var(--header-h); left: 0; right: 0;
+    height: 3px;
+    background: var(--gray-200);
+    z-index: 99;
+  }
+  .progress-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, #357b38, #1b4645);
+    transition: width 0.1s ease-out;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: fixed;
+    top: calc(var(--header-h) + 3px);
+    bottom: 0; left: 0;
+    width: var(--sidebar-w);
+    background: #fff;
+    border-right: 1px solid var(--gray-200);
+    overflow-y: auto;
+    padding: 20px 0;
+    z-index: 50;
+    transition: transform 0.25s ease;
+  }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 40;
+  }
+  .sidebar-overlay.active { display: block; }
+  .nav-section { padding: 0 0 20px; }
+  .nav-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-500);
+    padding: 6px 24px 8px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 24px;
+    color: var(--gray-700);
+    text-decoration: none;
+    font-size: 13.5px;
+    border-left: 3px solid transparent;
+    transition: all 0.15s ease;
+    line-height: 1.35;
+  }
+  .nav-item:hover { background: var(--gray-50); color: var(--gray-900); }
+  .nav-item.active {
+    border-left-color: var(--accent);
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    font-weight: 500;
+  }
+  .nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gray-300);
+    background: #fff;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+  .nav-item.visited .nav-dot { background: var(--accent); border-color: var(--accent); }
+  .nav-item.active .nav-dot {
+    background: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(27, 70, 69, 0.15);
+  }
+
+  /* MAIN */
+  .main {
+    margin-left: var(--sidebar-w);
+    padding-top: calc(var(--header-h) + 3px);
+    min-height: 100vh;
+  }
+  .content {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 32px 32px 80px;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff;
+    border-radius: 8px;
+    padding: 40px 36px;
+    margin-bottom: 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    opacity: 0.85;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .hero .lede {
+    font-size: 16px;
+    opacity: 0.92;
+    max-width: 680px;
+    line-height: 1.55;
+    font-weight: 300;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    flex-wrap: wrap;
+  }
+  .hero-meta-item { display: flex; flex-direction: column; }
+  .hero-meta-value { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .hero-meta-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.75;
+    margin-top: 2px;
+  }
+
+  /* SECTION CARDS */
+  .section-card {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s ease;
+  }
+  .section-header:hover { background: var(--gray-50); }
+  .section-number {
+    width: 32px; height: 32px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .section-title {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-800);
+    letter-spacing: -0.005em;
+  }
+  .section-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .section-badge.info { background: var(--primary-light); color: var(--primary-dark); }
+  .section-badge.cross { background: var(--gray-100); color: var(--gray-700); }
+  .section-badge.important { background: #fff4d4; color: #8a6d00; }
+  .chevron {
+    width: 20px; height: 20px;
+    color: var(--gray-500);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+  .section-card.open .chevron { transform: rotate(180deg); }
+  .section-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .section-card.open .section-body { max-height: 100000px; }
+  .section-content {
+    padding: 8px 22px 26px;
+    border-top: 1px solid var(--gray-100);
+  }
+  .section-content > p {
+    color: var(--gray-700);
+    margin: 16px 0;
+  }
+  .section-content > p.lead {
+    font-size: 15.5px;
+    color: var(--gray-700);
+    font-style: italic;
+    padding: 14px 16px;
+    background: var(--gray-50);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    margin-top: 18px;
+  }
+
+  /* MVP BLOCKS — the four facets per slot */
+  .mvp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .mvp-block {
+    border-radius: 8px;
+    padding: 16px 18px;
+    border: 1px solid var(--gray-200);
+  }
+  .mvp-block .block-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .mvp-block ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .mvp-block li {
+    font-size: 13.5px;
+    color: var(--gray-700);
+    line-height: 1.55;
+    padding: 5px 0 5px 18px;
+    position: relative;
+  }
+  .mvp-block li::before {
+    position: absolute;
+    left: 0; top: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .mvp-block.ships {
+    background: rgba(53, 123, 56, 0.05);
+    border-color: rgba(53, 123, 56, 0.25);
+  }
+  .mvp-block.ships .block-label { color: var(--accent); }
+  .mvp-block.ships li::before { content: "✓"; color: var(--accent); }
+
+  .mvp-block.deferred {
+    background: var(--gray-50);
+    border-color: var(--gray-200);
+  }
+  .mvp-block.deferred .block-label { color: var(--gray-500); }
+  .mvp-block.deferred li {
+    color: var(--gray-500);
+    text-decoration: line-through;
+    text-decoration-color: rgba(117, 122, 118, 0.4);
+    text-decoration-thickness: 1px;
+  }
+  .mvp-block.deferred li::before { content: "→"; color: var(--gray-400); text-decoration: none; }
+
+  .mvp-block.done {
+    background: rgba(27, 70, 69, 0.05);
+    border-color: rgba(27, 70, 69, 0.2);
+  }
+  .mvp-block.done .block-label { color: var(--primary); }
+  .mvp-block.done li::before { content: "■"; color: var(--primary); font-size: 9px; top: 7px; }
+
+  .mvp-block.why {
+    background: rgba(255, 190, 54, 0.07);
+    border-color: rgba(255, 190, 54, 0.3);
+  }
+  .mvp-block.why .block-label { color: #8a6d00; }
+  .mvp-block.why p {
+    font-size: 13.5px;
+    color: var(--gray-800);
+    line-height: 1.55;
+    font-style: italic;
+  }
+
+  /* CALLOUTS */
+  .callout {
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin: 18px 0;
+    font-size: 14px;
+    line-height: 1.55;
+    border-left: 4px solid;
+  }
+  .callout-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .callout.info {
+    background: rgba(27, 70, 69, 0.05);
+    border-left-color: var(--primary);
+    color: var(--gray-800);
+  }
+  .callout.info .callout-title { color: var(--primary); }
+  .callout.warning {
+    background: rgba(255, 190, 54, 0.08);
+    border-left-color: var(--warning);
+    color: var(--gray-800);
+  }
+  .callout.warning .callout-title { color: #8a6d00; }
+
+  /* TABLES */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 18px 0;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead { background: var(--primary); color: #fff; }
+  th {
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  td {
+    padding: 12px 14px;
+    border-top: 1px solid var(--gray-200);
+    color: var(--gray-700);
+    vertical-align: top;
+  }
+  tbody tr:hover { background: var(--gray-50); }
+  tbody tr td:first-child {
+    font-weight: 600;
+    color: var(--gray-900);
+    white-space: nowrap;
+  }
+  tbody tr td:nth-child(2) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* SCOPE NOTES */
+  .scope-list {
+    list-style: none;
+    margin-top: 12px;
+  }
+  .scope-list li {
+    padding: 12px 14px;
+    background: var(--gray-50);
+    border-left: 3px solid var(--gray-400);
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.55;
+  }
+  .scope-list li strong {
+    color: var(--gray-900);
+    font-weight: 600;
+  }
+
+  /* CODE */
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--primary-dark);
+  }
+
+  /* MARK (search) */
+  mark { background: #fff4a3; color: var(--gray-900); padding: 1px 2px; border-radius: 2px; }
+
+  /* BACK TO TOP */
+  .back-to-top {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    width: 44px; height: 44px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(27, 70, 69, 0.3);
+    z-index: 60;
+  }
+  .back-to-top.visible { opacity: 1; visibility: visible; }
+  .back-to-top:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+  /* FOOTER */
+  .doc-footer {
+    text-align: center;
+    color: var(--gray-500);
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-200);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    .menu-toggle { display: flex; }
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; }
+    .content { padding: 20px 16px 60px; }
+    .hero { padding: 28px 22px; }
+    .hero h1 { font-size: 26px; }
+    .header-title .sub, .header-title .sep { display: none; }
+    .header-back { display: none; }
+    .mvp-grid { grid-template-columns: 1fr; }
+  }
+
+  /* PRINT */
+  @media print {
+    .header, .progress-bar, .sidebar, .back-to-top, .sidebar-overlay { display: none !important; }
+    .main { margin-left: 0; padding-top: 0; }
+    .content { max-width: 100%; padding: 0; }
+    .section-body { max-height: none !important; }
+    .chevron { display: none; }
+    .hero { background: var(--primary) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section-card { page-break-inside: avoid; box-shadow: none; }
+    .mvp-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="logo-mark">PHF</div>
+    <div class="header-title">
+      <strong>Collections Module</strong>
+      <span class="sep">·</span>
+      <span class="sub">MVP Feature List</span>
+    </div>
+  </div>
+  <a href="Collections_Module_Feature_List_Manual.html" class="header-back">← Full Feature List</a>
+</header>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="nav-section">
+    <div class="nav-section-title">Foundation</div>
+    <a href="#overview" class="nav-item"><span class="nav-dot"></span>Overview</a>
+    <a href="#method" class="nav-item"><span class="nav-dot"></span>Method</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-title">The Seven Jobs (MVP)</div>
+    <a href="#sense" class="nav-item"><span class="nav-dot"></span>01 — Sense</a>
+    <a href="#decide" class="nav-item"><span class="nav-dot"></span>02 — Decide</a>
+    <a href="#reach" class="nav-item"><span class="nav-dot"></span>03 — Reach</a>
+    <a href="#act" class="nav-item"><span class="nav-dot"></span>04 — Act</a>
+    <a href="#record" class="nav-item"><span class="nav-dot"></span>05 — Record</a>
+    <a href="#settle" class="nav-item"><span class="nav-dot"></span>06 — Settle</a>
+    <a href="#improve" class="nav-item"><span class="nav-dot"></span>07 — Improve</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-title">Cross-Cutting (MVP)</div>
+    <a href="#guardrails" class="nav-item"><span class="nav-dot"></span>Guardrails</a>
+    <a href="#plumbing" class="nav-item"><span class="nav-dot"></span>Plumbing</a>
+  </div>
+</nav>
+
+<main class="main">
+  <div class="content">
+
+    <section class="hero" id="overview">
+      <div class="hero-eyebrow">Affordable Housing Finance · MVP Spec</div>
+      <h1>Collections Module — MVP Feature List</h1>
+      <p class="lede">The smallest cut of the collections module that <strong>actually works</strong> for an AHFC. v1 that can collect money, stay compliant, and survive an audit. Anything not on these lists is layer-2.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><span class="hero-meta-value">9</span><span class="hero-meta-label">MVP Slots</span></div>
+        <div class="hero-meta-item"><span class="hero-meta-value">7</span><span class="hero-meta-label">Atomic Jobs</span></div>
+        <div class="hero-meta-item"><span class="hero-meta-value">2</span><span class="hero-meta-label">Cross-Cutting</span></div>
+        <div class="hero-meta-item"><span class="hero-meta-value">~10 min</span><span class="hero-meta-label">Read Time</span></div>
+      </div>
+    </section>
+
+    <!-- METHOD -->
+    <article class="section-card open" id="method">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">01</div>
+        <div class="section-title">Method</div>
+        <span class="section-badge info">Foundation</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p>The MVP is the smallest cut of the collections module that <strong>actually works</strong> for an Affordable Housing Finance Company. It is not the demo, not the showcase, not the everything-bagel — it is the v1 that can collect money, stay compliant, and survive an audit.</p>
+          <p>For each of the 9 slots from the first-principles feature list (7 jobs + 2 cross-cutting), the MVP is broken down into four facets:</p>
+          <div class="mvp-grid" style="margin-top: 14px;">
+            <div class="mvp-block ships"><div class="block-label">Ships in v1</div><p style="font-size: 13.5px; color: var(--gray-700);">What we build.</p></div>
+            <div class="mvp-block deferred"><div class="block-label">Deferred</div><p style="font-size: 13.5px; color: var(--gray-700);">What we explicitly do not build (yet).</p></div>
+            <div class="mvp-block done"><div class="block-label">Done When</div><p style="font-size: 13.5px; color: var(--gray-700);">Acceptance criteria.</p></div>
+            <div class="mvp-block why"><div class="block-label">Why This Cut</div><p>The first-principles reason for the line in the sand.</p></div>
+          </div>
+          <div class="callout info">
+            <span class="callout-title">Discipline</span>
+            Anything not on the "ships" list is layer-2. Don't pay enterprise prices for it. Don't build it in v1. Don't argue about it.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 1 SENSE -->
+    <article class="section-card" id="sense">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">02</div>
+        <div class="section-title">Job 01 — Sense</div>
+        <span class="section-badge info">MVP</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <div class="mvp-grid">
+            <div class="mvp-block ships">
+              <div class="block-label">Ships in v1</div>
+              <ul>
+                <li>Loan master sync from LMS (account, sanction, EMI, schedule, ROI, tenor)</li>
+                <li>DPD calculator running at least hourly</li>
+                <li>Bucket assignment: Current / 1-30 / 31-60 / 61-90 / 90+ / NPA / Written-off</li>
+                <li>Borrower 360 single screen — applicant + co-applicant + guarantor with masked PAN, mobiles, email, address</li>
+                <li>Linked-accounts view (cross-default visibility) keyed off canonical Customer ID</li>
+                <li>Property record — address, type, last valuation, valuer, valuation date</li>
+                <li>Behavioural history for last 12 months — bounces, cures, PTPs kept/broken</li>
+                <li>Last-contact timestamp per channel</li>
+                <li>Append-only event log of every state transition</li>
+              </ul>
+            </div>
+            <div class="mvp-block deferred">
+              <div class="block-label">Deferred</div>
+              <ul>
+                <li>ML propensity scores</li>
+                <li>Geo-mesh dashboards</li>
+                <li>Best-time-to-call models</li>
+                <li>RFID title custody</li>
+                <li>KYC-freshness auto-tasks</li>
+                <li>Insurance-claim history feed</li>
+              </ul>
+            </div>
+            <div class="mvp-block done">
+              <div class="block-label">Done When</div>
+              <ul>
+                <li>Any account's DPD is queryable in &lt;2 seconds</li>
+                <li>360 view loads on one screen, no tab-switching</li>
+                <li>Yesterday's bucket-roll report is in the manager's inbox by 9am</li>
+              </ul>
+            </div>
+            <div class="mvp-block why">
+              <div class="block-label">Why This Cut</div>
+              <p>Without clean state, no action is correct. ML and geo-analytics layer on top.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 2 DECIDE -->
+    <article class="section-card" id="decide">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">03</div>
+        <div class="section-title">Job 02 — Decide</div>
+        <span class="section-badge info">MVP</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <div class="mvp-grid">
+            <div class="mvp-block ships">
+              <div class="block-label">Ships in v1</div>
+              <ul>
+                <li>Rule-based segmentation (DPD × bucket × ticket-band × geography)</li>
+                <li>Static treatment trees per segment — e.g., 1-30 → SMS → IVR → agent; 31-60 → agent → field; 61+ → field → legal</li>
+                <li>Frequency caps in config, enforced by dialer (max calls/day, max SMS/day)</li>
+                <li>Allocation — rule-based to channel + manual override at supervisor level</li>
+                <li>Static priority sort within agent queue (DPD desc → ticket desc)</li>
+                <li>PTP-on-hold suppression (active PTP pauses dunning until expiry)</li>
+              </ul>
+            </div>
+            <div class="mvp-block deferred">
+              <div class="block-label">Deferred</div>
+              <ul>
+                <li>ML propensity scores for ranking</li>
+                <li>Champion-challenger framework</li>
+                <li>Cost-aware action selection</li>
+                <li>NBA recommender</li>
+                <li>Automated re-allocation triggers</li>
+              </ul>
+            </div>
+            <div class="mvp-block done">
+              <div class="block-label">Done When</div>
+              <ul>
+                <li>Strategy team can edit rules without an engineer</li>
+                <li>Allocation runs nightly; queues populated by 6am</li>
+                <li>Frequency caps verifiably non-overrideable in penetration test</li>
+              </ul>
+            </div>
+            <div class="mvp-block why">
+              <div class="block-label">Why This Cut</div>
+              <p>A working rules engine beats an empty ML wishlist. ML layers on once data is flowing.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 3 REACH -->
+    <article class="section-card" id="reach">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">04</div>
+        <div class="section-title">Job 03 — Reach</div>
+        <span class="section-badge info">MVP</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <div class="mvp-grid">
+            <div class="mvp-block ships">
+              <div class="block-label">Ships in v1</div>
+              <ul>
+                <li>SMS via DLT-registered templates (one per bucket)</li>
+                <li>IVR for early-bucket nudges and missed-call deflect</li>
+                <li>Agent outbound dialer in progressive mode</li>
+                <li>Field officer mobile app — online-first OK</li>
+                <li>Calling-hour enforcement (8am–7pm IST + holiday list) — non-overrideable</li>
+                <li>DND honour at SMS and dialer</li>
+                <li>Co-applicant cascade — call applicant first, then co-applicant after RNR×3</li>
+              </ul>
+            </div>
+            <div class="mvp-block deferred">
+              <div class="block-label">Deferred</div>
+              <ul>
+                <li>WhatsApp BSP integration (high-leverage but 6–8 weeks for templates + onboarding)</li>
+                <li>Voice-bot</li>
+                <li>Predictive dialer (start with progressive)</li>
+                <li>Best-time-to-call learning</li>
+                <li>Skip-tracing connectors</li>
+                <li>Reference-walking workflow</li>
+              </ul>
+            </div>
+            <div class="mvp-block done">
+              <div class="block-label">Done When</div>
+              <ul>
+                <li>Agent can place a recorded outbound call from desktop in &lt;5 seconds</li>
+                <li>SMS sends from a template with merge fields (name, amount, due date)</li>
+                <li>Field officer sees today's beat plan, marks dispositions, logs payments — all on phone</li>
+              </ul>
+            </div>
+            <div class="mvp-block why">
+              <div class="block-label">Why This Cut</div>
+              <p>SMS + IVR + agent + field cover &gt;90% of Indian collection contacts. WhatsApp is a 6-week adder, not a v0 blocker.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 4 ACT -->
+    <article class="section-card" id="act">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">05</div>
+        <div class="section-title">Job 04 — Act</div>
+        <span class="section-badge info">MVP</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <div class="mvp-grid">
+            <div class="mvp-block ships">
+              <div class="block-label">Ships in v1</div>
+              <ul>
+                <li>UPI payment link (one-tap, amount-pre-filled) sent via SMS</li>
+                <li>Tele-call with disposition capture + call recording</li>
+                <li>Field visit — cash/cheque/UPI receipt on the spot + geo-tagged photo + structured disposition</li>
+                <li>Section 138 NI Act notice (template-driven)</li>
+                <li>SARFAESI Section 13(2) demand notice</li>
+                <li>SARFAESI Section 13(4) symbolic possession workflow tracked end-to-end</li>
+                <li>OTS workflow with delegation matrix and waiver booking</li>
+                <li>Insurance-claim filing (upload + tracker)</li>
+              </ul>
+            </div>
+            <div class="mvp-block deferred">
+              <div class="block-label">Deferred</div>
+              <ul>
+                <li>WhatsApp interactive pay flow</li>
+                <li>Voice-bot intent capture</li>
+                <li>E-NACH self-service</li>
+                <li>Full e-auction module (manual handoff after 13(4) for v1)</li>
+                <li>Restructure NPV simulator</li>
+                <li>E-stamp + e-sign integration (manual courier OK)</li>
+              </ul>
+            </div>
+            <div class="mvp-block done">
+              <div class="block-label">Done When</div>
+              <ul>
+                <li>Agent sends a payment link in &lt;10 seconds</li>
+                <li>Field officer issues a digital receipt on doorstep</li>
+                <li>Legal team generates Sec 138 or 13(2) notice in &lt;2 minutes</li>
+                <li>13(4) possession workflow is fully tracked from notice to symbolic possession</li>
+              </ul>
+            </div>
+            <div class="mvp-block why">
+              <div class="block-label">Why This Cut</div>
+              <p>These are the legally-required acts for secured retail. Auction is the next milestone — typically 6–9 months after 13(4) flow is live anyway.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 5 RECORD -->
+    <article class="section-card" id="record">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">06</div>
+        <div class="section-title">Job 05 — Record</div>
+        <span class="section-badge info">MVP</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <div class="mvp-grid">
+            <div class="mvp-block ships">
+              <div class="block-label">Ships in v1</div>
+              <ul>
+                <li>Every call recorded with consent disposition captured</li>
+                <li>Every visit logged with timestamp + geo-tag + disposition + photo</li>
+                <li>PTP capture as structured object (amount + date + channel)</li>
+                <li>PTP tracking (kept / broken / partial) with auto-link of incoming payment</li>
+                <li>Document vault for notices, AD/POD, OTS letters, court orders, valuation reports</li>
+                <li>Audit log on config changes, allocations, waivers, write-offs, PII access</li>
+              </ul>
+            </div>
+            <div class="mvp-block deferred">
+              <div class="block-label">Deferred</div>
+              <ul>
+                <li>Hash-chained tamper-evidence (append-only DB OK for v1)</li>
+                <li>OCR-indexed vault</li>
+                <li>Customer-voice auto-tagging</li>
+                <li>Versioning of legal documents (last-version-wins acceptable)</li>
+              </ul>
+            </div>
+            <div class="mvp-block done">
+              <div class="block-label">Done When</div>
+              <ul>
+                <li>Any call retrievable by account number in &lt;30 seconds</li>
+                <li>Audit can answer "who changed waterfall config in March?" in one query</li>
+                <li>PTP-performance report runs weekly</li>
+              </ul>
+            </div>
+            <div class="mvp-block why">
+              <div class="block-label">Why This Cut</div>
+              <p>Without records, no recovery survives legal challenge. Tamper-evidence and OCR are layer-2.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 6 SETTLE -->
+    <article class="section-card" id="settle">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">07</div>
+        <div class="section-title">Job 06 — Settle</div>
+        <span class="section-badge info">MVP</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <div class="mvp-grid">
+            <div class="mvp-block ships">
+              <div class="block-label">Ships in v1</div>
+              <ul>
+                <li>Receipt — cash, cheque, UPI, NEFT, NACH, payment link</li>
+                <li>Provisional → final receipt on clearance / NACH success</li>
+                <li>Configurable appropriation waterfall (charges → penal → interest → principal)</li>
+                <li>Bank-statement to receipt match (auto + exception queue)</li>
+                <li>NACH file reconciliation (presented / success / bounce)</li>
+                <li>Cash custody reconciliation per FOS</li>
+                <li>Daily GL posting with sub-ledger tie-out</li>
+                <li>Bounce reversal — reverse EMI, restore DPD, reopen case, reverse PTP-kept</li>
+              </ul>
+            </div>
+            <div class="mvp-block deferred">
+              <div class="block-label">Deferred</div>
+              <ul>
+                <li>Card / wallet / BBPS receipts</li>
+                <li>Auction-proceeds appropriation</li>
+                <li>Insurance-proceeds appropriation</li>
+                <li>Automated provisioning on waiver/write-off</li>
+                <li>Borrower self-service for excess/suspense</li>
+              </ul>
+            </div>
+            <div class="mvp-block done">
+              <div class="block-label">Done When</div>
+              <ul>
+                <li>Any-channel receipt reconciled to GL by next day</li>
+                <li>Unmatched bank receipts &lt;1% of daily volume</li>
+                <li>FOS cash shortage flagged within 24 hours</li>
+              </ul>
+            </div>
+            <div class="mvp-block why">
+              <div class="block-label">Why This Cut</div>
+              <p>Money in the wrong account = unrecovered. Reconciliation is non-negotiable.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 7 IMPROVE -->
+    <article class="section-card" id="improve">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">08</div>
+        <div class="section-title">Job 07 — Improve</div>
+        <span class="section-badge info">MVP</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <div class="mvp-grid">
+            <div class="mvp-block ships">
+              <div class="block-label">Ships in v1</div>
+              <ul>
+                <li>Daily roll-rate report per bucket</li>
+                <li>Weekly cure-rate report per bucket × geography</li>
+                <li>Agent productivity — calls/day, AHT, RPC%, cure ₹</li>
+                <li>PTP-kept% and PTP→payment lag at agent and team level</li>
+                <li>Cost-to-collect by channel (channel-cost ÷ recoveries)</li>
+                <li>Monthly NPA report (NHB-return-ready)</li>
+                <li>Vintage curves at quarterly cadence</li>
+              </ul>
+            </div>
+            <div class="mvp-block deferred">
+              <div class="block-label">Deferred</div>
+              <ul>
+                <li>Champion-challenger framework</li>
+                <li>What-if simulator</li>
+                <li>Real-time dashboards (daily refresh OK)</li>
+                <li>ML-model performance tracking</li>
+                <li>Static-pool analysis</li>
+                <li>Auto-promotion of winners</li>
+              </ul>
+            </div>
+            <div class="mvp-block done">
+              <div class="block-label">Done When</div>
+              <ul>
+                <li>Manager sees yesterday's roll, cure, RPC by 9am</li>
+                <li>Agent leaderboard refreshes daily</li>
+                <li>NPA report is one-click for NHB submission</li>
+              </ul>
+            </div>
+            <div class="mvp-block why">
+              <div class="block-label">Why This Cut</div>
+              <p>Three numbers — roll, cure, RPC — steer 80% of decisions. The rest is layer-2.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 8 GUARDRAILS -->
+    <article class="section-card" id="guardrails">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">09</div>
+        <div class="section-title">Cross-Cutting — Guardrails</div>
+        <span class="section-badge cross">Cross-Cutting</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <div class="mvp-grid">
+            <div class="mvp-block ships">
+              <div class="block-label">Ships in v1</div>
+              <ul>
+                <li>Calling-hour window enforced at dialer (8am–7pm IST + holiday list)</li>
+                <li>DND honour at SMS and dialer</li>
+                <li>Recording-consent capture (IVR prompt for inbound; agent script for outbound)</li>
+                <li>Per-borrower frequency cap at dialer (configurable; default 3 calls/day)</li>
+                <li>Audit log on config, allocation, waiver, write-off, PII access</li>
+                <li>Role-based access control (collector / supervisor / manager / compliance)</li>
+                <li>Data retention policy — recordings 7 yrs, KYC 10 yrs post-closure</li>
+              </ul>
+            </div>
+            <div class="mvp-block deferred">
+              <div class="block-label">Deferred</div>
+              <ul>
+                <li>Geofenced FOS access (basic location for v1)</li>
+                <li>Full DEPA consent ledger with revocation propagation</li>
+                <li>Field-level PII masking by role</li>
+                <li>IIBF expiry tracking (HR-side for v1)</li>
+                <li>Automated Ombudsman SLA escalation</li>
+              </ul>
+            </div>
+            <div class="mvp-block done">
+              <div class="block-label">Done When</div>
+              <ul>
+                <li>4th outbound call to same borrower in a day is impossible (penetration-tested)</li>
+                <li>Every call has a consent disposition</li>
+                <li>Audit can produce who-changed-what on any config in last 12 months</li>
+              </ul>
+            </div>
+            <div class="mvp-block why">
+              <div class="block-label">Why This Cut</div>
+              <p>The regulatory floor. Every gap here is a complaint, a fine, or a license risk.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 9 PLUMBING -->
+    <article class="section-card" id="plumbing">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">10</div>
+        <div class="section-title">Cross-Cutting — Plumbing</div>
+        <span class="section-badge cross">Cross-Cutting</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <div class="mvp-grid">
+            <div class="mvp-block ships">
+              <div class="block-label">Ships in v1</div>
+              <ul>
+                <li>LMS bidirectional integration (account state, schedule, payments, dispositions)</li>
+                <li>Core banking / GL integration with daily tie-out</li>
+                <li>Payment rails — NACH (NPCI), UPI, payment gateway, NEFT</li>
+                <li>Telephony — SIP trunks + dialer + recording storage (S3, 7-yr retention)</li>
+                <li>Messaging — SMS aggregator with DLT registration</li>
+                <li>Credit bureau — CIBIL minimum (CRIF / Equifax / Experian optional)</li>
+                <li>HRMS integration for agent master + skill + roster</li>
+                <li>SSO for all users</li>
+                <li>API-first design (every UI action has an API)</li>
+              </ul>
+            </div>
+            <div class="mvp-block deferred">
+              <div class="block-label">Deferred</div>
+              <ul>
+                <li>WhatsApp BSP</li>
+                <li>Account Aggregator</li>
+                <li>E-stamp / e-sign / DigiLocker</li>
+                <li>Court &amp; e-auction platform integrations</li>
+                <li>Alternate-data feeds (EPFO, recharge proxies)</li>
+                <li>Webhook / event-bus extensibility</li>
+              </ul>
+            </div>
+            <div class="mvp-block done">
+              <div class="block-label">Done When</div>
+              <ul>
+                <li>A loan disbursed in LMS shows up in collections by the next sync</li>
+                <li>A receipt posts to GL within the day</li>
+                <li>An outbound call connects via dialer and is recorded</li>
+                <li>An SMS lands within 1 minute of trigger</li>
+              </ul>
+            </div>
+            <div class="mvp-block why">
+              <div class="block-label">Why This Cut</div>
+              <p>Without these, the module is an island. Deferred ones are adders, not blockers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="doc-footer">
+      COLLECTIONS · MVP FEATURE LIST · v1.0
+    </div>
+
+  </div>
+</main>
+
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<script>
+  function toggleSection(headerEl) {
+    const card = headerEl.closest('.section-card');
+    card.classList.toggle('open');
+  }
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('active');
+  }
+
+  document.querySelectorAll('.nav-item').forEach(link => {
+    link.addEventListener('click', e => {
+      const href = link.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (!target) return;
+      if (target.classList.contains('section-card')) {
+        target.classList.add('open');
+      }
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarOverlay').classList.remove('active');
+      const headerOffset = 80;
+      const elementPosition = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+    });
+  });
+
+  const progressFill = document.getElementById('progressFill');
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
+    progressFill.style.width = pct + '%';
+    if (scrollTop > 500) backToTop.classList.add('visible');
+    else backToTop.classList.remove('visible');
+  });
+
+  const navItems = document.querySelectorAll('.nav-item');
+  const sectionMap = new Map();
+  navItems.forEach(item => {
+    const href = item.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      sectionMap.set(href.slice(1), item);
+    }
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const id = entry.target.id;
+      const navItem = sectionMap.get(id);
+      if (!navItem) return;
+      if (entry.isIntersecting) {
+        navItems.forEach(n => n.classList.remove('active'));
+        navItem.classList.add('active');
+        navItem.classList.add('visited');
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px' });
+
+  document.querySelectorAll('.section-card, .hero').forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
