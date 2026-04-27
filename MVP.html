@@ -165,6 +165,29 @@
     transition: all 0.2s ease;
   }
   .nav-item.visited .nav-dot { background: var(--accent); border-color: var(--accent); }
+  .nav-item.nested {
+    padding-left: 44px;
+    font-size: 12.5px;
+    color: var(--gray-600);
+    line-height: 1.3;
+  }
+  .nav-item.nested .nav-dot {
+    width: 5px;
+    height: 5px;
+    border-width: 1px;
+  }
+  .nav-item.nested .nav-count {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--gray-400);
+    font-weight: 500;
+  }
+  .nav-item.nested.active {
+    background: var(--gray-50);
+    color: var(--primary-dark);
+    font-weight: 500;
+  }
   .nav-item.active .nav-dot {
     background: var(--primary);
     border-color: var(--primary);
@@ -493,6 +516,105 @@
     color: var(--primary-dark);
   }
 
+  /* PRD CARDS */
+  .prd-card {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .prd-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed var(--gray-200);
+  }
+  .prd-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+  .prd-name {
+    font-weight: 600;
+    color: var(--gray-900);
+    font-size: 14px;
+    flex: 1;
+    letter-spacing: -0.005em;
+  }
+  .prd-priority {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+  }
+  .prd-priority.p0 {
+    background: rgba(244, 67, 54, 0.1);
+    color: var(--danger);
+  }
+  .prd-priority.p1 {
+    background: rgba(255, 190, 54, 0.15);
+    color: #8a6d00;
+  }
+  .prd-line {
+    margin: 4px 0;
+    color: var(--gray-700);
+  }
+  .prd-line-label {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    min-width: 90px;
+    margin-right: 6px;
+    vertical-align: top;
+  }
+  .prd-summary {
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 14px 0 22px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  .prd-summary-cell {
+    text-align: center;
+    padding: 6px;
+  }
+  .prd-summary-num {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1;
+  }
+  .prd-summary-label {
+    font-size: 11px;
+    color: var(--gray-500);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+
   /* MARK (search) */
   mark { background: #fff4a3; color: var(--gray-900); padding: 1px 2px; border-radius: 2px; }
 
@@ -598,6 +720,19 @@
     <div class="nav-section-title">Cross-Cutting (MVP)</div>
     <a href="#guardrails" class="nav-item"><span class="nav-dot"></span>Guardrails</a>
     <a href="#plumbing" class="nav-item"><span class="nav-dot"></span>Plumbing</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-title">Reference</div>
+    <a href="#prd" class="nav-item"><span class="nav-dot"></span>PRD — Feature Details</a>
+    <a href="#prd-sense" class="nav-item nested"><span class="nav-dot"></span>Sense<span class="nav-count">9</span></a>
+    <a href="#prd-decide" class="nav-item nested"><span class="nav-dot"></span>Decide<span class="nav-count">6</span></a>
+    <a href="#prd-reach" class="nav-item nested"><span class="nav-dot"></span>Reach<span class="nav-count">7</span></a>
+    <a href="#prd-act" class="nav-item nested"><span class="nav-dot"></span>Act<span class="nav-count">3</span></a>
+    <a href="#prd-record" class="nav-item nested"><span class="nav-dot"></span>Record<span class="nav-count">4</span></a>
+    <a href="#prd-settle" class="nav-item nested"><span class="nav-dot"></span>Settle<span class="nav-count">7</span></a>
+    <a href="#prd-improve" class="nav-item nested"><span class="nav-dot"></span>Improve<span class="nav-count">7</span></a>
+    <a href="#prd-guardrails" class="nav-item nested"><span class="nav-dot"></span>Guardrails<span class="nav-count">6</span></a>
+    <a href="#prd-plumbing" class="nav-item nested"><span class="nav-dot"></span>Plumbing<span class="nav-count">9</span></a>
   </div>
 </nav>
 
@@ -709,10 +844,10 @@
             <div class="mvp-block ships">
               <div class="block-label">Ships in v1</div>
               <ul>
-                <li>Rule-based segmentation (DPD × bucket × ticket-band × geography)</li>
-                <li>Static treatment trees per segment — e.g., 1-30 → SMS → IVR → agent; 31-60 → agent → field; 61+ → field → legal</li>
+                <li><strong>Bulk allocation upload</strong> — ops uploads a case → team mapping (CSV / Excel) for field and tele teams</li>
+                <li><strong>Strategy for communication defined in the system</strong> — static treatment trees per bucket / channel govern what is sent (SMS / IVR / call / visit) and when, once a case is allocated</li>
+                <li>DPD-bucket segmentation — system knows each case's bucket and applies the right tree automatically</li>
                 <li>Frequency caps in config, enforced by dialer (max calls/day, max SMS/day)</li>
-                <li>Allocation — rule-based to channel + manual override at supervisor level</li>
                 <li>Static priority sort within agent queue (DPD desc → ticket desc)</li>
                 <li>PTP-on-hold suppression (active PTP pauses dunning until expiry)</li>
               </ul>
@@ -720,6 +855,8 @@
             <div class="mvp-block deferred">
               <div class="block-label">Deferred</div>
               <ul>
+                <li>Rule-based auto-allocation to channel / agent</li>
+                <li>Multi-dimensional segmentation (ticket × geography × employment)</li>
                 <li>ML propensity scores for ranking</li>
                 <li>Champion-challenger framework</li>
                 <li>Cost-aware action selection</li>
@@ -730,14 +867,14 @@
             <div class="mvp-block done">
               <div class="block-label">Done When</div>
               <ul>
-                <li>Strategy team can edit rules without an engineer</li>
-                <li>Allocation runs nightly; queues populated by 6am</li>
+                <li>Ops can upload a case → team mapping for the day's portfolio in &lt;5 minutes; system populates queues immediately</li>
+                <li>The right dunning tree runs for each bucket without manual intervention once allocated</li>
                 <li>Frequency caps verifiably non-overrideable in penetration test</li>
               </ul>
             </div>
             <div class="mvp-block why">
               <div class="block-label">Why This Cut</div>
-              <p>A working rules engine beats an empty ML wishlist. ML layers on once data is flowing.</p>
+              <p>v1 splits the decision cleanly: <strong>ops decides <em>who</em> handles each case</strong> (via bulk upload) while <strong>the system decides <em>how</em> to communicate</strong> (strategy trees by bucket). Auto-allocation layers on once the rules are proven and ops trusts the system to choose channel and agent.</p>
             </div>
           </div>
         </div>
@@ -809,25 +946,26 @@
             <div class="mvp-block ships">
               <div class="block-label">Ships in v1</div>
               <ul>
-                <li>UPI payment link (one-tap, amount-pre-filled) sent via SMS</li>
-                <li>Tele-call with disposition capture + call recording</li>
-                <li>Field visit — cash/cheque/UPI receipt on the spot + geo-tagged photo + structured disposition</li>
-                <li>Section 138 NI Act notice (template-driven)</li>
-                <li>SARFAESI Section 13(2) demand notice</li>
-                <li>SARFAESI Section 13(4) symbolic possession workflow tracked end-to-end</li>
-                <li>OTS workflow with delegation matrix and waiver booking</li>
-                <li>Insurance-claim filing (upload + tracker)</li>
+                <li>UPI payment link (one-tap, amount-pre-filled) — triggered by tele-caller or FOS, delivered via SMS</li>
+                <li>Tele-call with disposition capture + call recording + one-click "send payment link"</li>
+                <li>Field visit — cheque / UPI on-spot (FOS can send the link from the app) + geo-tagged photo + structured disposition</li>
               </ul>
             </div>
             <div class="mvp-block deferred">
               <div class="block-label">Deferred</div>
               <ul>
+                <li>Cash collection at field (custody, deposit, shortage-tracking overhead)</li>
+                <li>Section 138 NI Act notice (template-driven)</li>
+                <li>SARFAESI Section 13(2) demand notice</li>
+                <li>SARFAESI Section 13(4) symbolic possession workflow</li>
+                <li>OTS workflow with delegation matrix and waiver booking</li>
+                <li>Insurance-claim filing (upload + tracker)</li>
+                <li>E-stamp + e-sign integration</li>
+                <li>Full e-auction module</li>
+                <li>Restructure NPV simulator</li>
                 <li>WhatsApp interactive pay flow</li>
                 <li>Voice-bot intent capture</li>
                 <li>E-NACH self-service</li>
-                <li>Full e-auction module (manual handoff after 13(4) for v1)</li>
-                <li>Restructure NPV simulator</li>
-                <li>E-stamp + e-sign integration (manual courier OK)</li>
               </ul>
             </div>
             <div class="mvp-block done">
@@ -835,13 +973,12 @@
               <ul>
                 <li>Agent sends a payment link in &lt;10 seconds</li>
                 <li>Field officer issues a digital receipt on doorstep</li>
-                <li>Legal team generates Sec 138 or 13(2) notice in &lt;2 minutes</li>
-                <li>13(4) possession workflow is fully tracked from notice to symbolic possession</li>
+                <li>A delinquent borrower can be touched by digital + tele + field channels in a single day</li>
               </ul>
             </div>
             <div class="mvp-block why">
               <div class="block-label">Why This Cut</div>
-              <p>These are the legally-required acts for secured retail. Auction is the next milestone — typically 6–9 months after 13(4) flow is live anyway.</p>
+              <p>v1 ships the operational collection core — digital + tele + field. Legal recovery (Sec 138, SARFAESI), OTS, and insurance workflows are a separate workstream that layers on once the operational engine is stable. They involve longer build cycles, lawyer dependencies, and don't move recoveries on day one.</p>
             </div>
           </div>
         </div>
@@ -866,30 +1003,30 @@
                 <li>Every visit logged with timestamp + geo-tag + disposition + photo</li>
                 <li>PTP capture as structured object (amount + date + channel)</li>
                 <li>PTP tracking (kept / broken / partial) with auto-link of incoming payment</li>
-                <li>Document vault for notices, AD/POD, OTS letters, court orders, valuation reports</li>
-                <li>Audit log on config changes, allocations, waivers, write-offs, PII access</li>
               </ul>
             </div>
             <div class="mvp-block deferred">
               <div class="block-label">Deferred</div>
               <ul>
-                <li>Hash-chained tamper-evidence (append-only DB OK for v1)</li>
+                <li>Document vault for notices, AD/POD, OTS letters, court orders, valuation reports</li>
+                <li>Audit log on config changes, allocations, waivers, write-offs, PII access</li>
+                <li>Hash-chained tamper-evidence</li>
                 <li>OCR-indexed vault</li>
                 <li>Customer-voice auto-tagging</li>
-                <li>Versioning of legal documents (last-version-wins acceptable)</li>
+                <li>Versioning of legal documents</li>
               </ul>
             </div>
             <div class="mvp-block done">
               <div class="block-label">Done When</div>
               <ul>
                 <li>Any call retrievable by account number in &lt;30 seconds</li>
-                <li>Audit can answer "who changed waterfall config in March?" in one query</li>
+                <li>Every visit has timestamp, geo-tag, photo, and disposition stored</li>
                 <li>PTP-performance report runs weekly</li>
               </ul>
             </div>
             <div class="mvp-block why">
               <div class="block-label">Why This Cut</div>
-              <p>Without records, no recovery survives legal challenge. Tamper-evidence and OCR are layer-2.</p>
+              <p>v1 records what the operational team needs day-to-day — every call, every visit, every PTP. Legal-grade document custody and full config-audit logging are governance layers that pair with the deferred legal recovery workflow; ship them together once Sec 138 / SARFAESI is on the roadmap.</p>
             </div>
           </div>
         </div>
@@ -910,12 +1047,11 @@
             <div class="mvp-block ships">
               <div class="block-label">Ships in v1</div>
               <ul>
-                <li>Receipt — cash, cheque, UPI, NEFT, NACH, payment link</li>
+                <li>Receipt — cheque, UPI, NEFT, NACH, payment link</li>
                 <li>Provisional → final receipt on clearance / NACH success</li>
                 <li>Configurable appropriation waterfall (charges → penal → interest → principal)</li>
                 <li>Bank-statement to receipt match (auto + exception queue)</li>
                 <li>NACH file reconciliation (presented / success / bounce)</li>
-                <li>Cash custody reconciliation per FOS</li>
                 <li>Daily GL posting with sub-ledger tie-out</li>
                 <li>Bounce reversal — reverse EMI, restore DPD, reopen case, reverse PTP-kept</li>
               </ul>
@@ -923,6 +1059,8 @@
             <div class="mvp-block deferred">
               <div class="block-label">Deferred</div>
               <ul>
+                <li>Cash receipts (branch counter + FOS doorstep)</li>
+                <li>Cash custody reconciliation per FOS / branch / agency</li>
                 <li>Card / wallet / BBPS receipts</li>
                 <li>Auction-proceeds appropriation</li>
                 <li>Insurance-proceeds appropriation</li>
@@ -933,14 +1071,14 @@
             <div class="mvp-block done">
               <div class="block-label">Done When</div>
               <ul>
-                <li>Any-channel receipt reconciled to GL by next day</li>
+                <li>Any digital receipt reconciled to GL by next day</li>
                 <li>Unmatched bank receipts &lt;1% of daily volume</li>
-                <li>FOS cash shortage flagged within 24 hours</li>
+                <li>Bounce reversal cascades cleanly (DPD restored, case reopened, PTP-kept reversed)</li>
               </ul>
             </div>
             <div class="mvp-block why">
               <div class="block-label">Why This Cut</div>
-              <p>Money in the wrong account = unrecovered. Reconciliation is non-negotiable.</p>
+              <p>Money in the wrong account = unrecovered. Reconciliation is non-negotiable. Cash is deferred — its custody, deposit, and shortage-tracking burden isn't worth carrying when every borrower can pay via UPI / NACH / link.</p>
             </div>
           </div>
         </div>
@@ -1016,7 +1154,6 @@
                 <li>DND honour at SMS and dialer</li>
                 <li>Recording-consent capture (IVR prompt for inbound; agent script for outbound)</li>
                 <li>Per-borrower frequency cap at dialer (configurable; default 3 calls/day)</li>
-                <li>Audit log on config, allocation, waiver, write-off, PII access</li>
                 <li>Role-based access control (collector / supervisor / manager / compliance)</li>
                 <li>Data retention policy — recordings 7 yrs, KYC 10 yrs post-closure</li>
               </ul>
@@ -1024,6 +1161,7 @@
             <div class="mvp-block deferred">
               <div class="block-label">Deferred</div>
               <ul>
+                <li>Audit log on config, allocation, waiver, write-off, PII access</li>
                 <li>Geofenced FOS access (basic location for v1)</li>
                 <li>Full DEPA consent ledger with revocation propagation</li>
                 <li>Field-level PII masking by role</li>
@@ -1036,12 +1174,12 @@
               <ul>
                 <li>4th outbound call to same borrower in a day is impossible (penetration-tested)</li>
                 <li>Every call has a consent disposition</li>
-                <li>Audit can produce who-changed-what on any config in last 12 months</li>
+                <li>Calling-hour and DND breaches are zero in production</li>
               </ul>
             </div>
             <div class="mvp-block why">
               <div class="block-label">Why This Cut</div>
-              <p>The regulatory floor. Every gap here is a complaint, a fine, or a license risk.</p>
+              <p>The regulatory floor on borrower-facing conduct. Every gap here is a complaint, a fine, or a license risk. Internal-governance audit (config / waiver / write-off / PII access trails) layers on later alongside the legal and document-vault stack.</p>
             </div>
           </div>
         </div>
@@ -1102,6 +1240,596 @@
       </div>
     </article>
 
+    <!-- PRD — FEATURE DETAILS -->
+    <article class="section-card" id="prd">
+      <header class="section-header" onclick="toggleSection(this)">
+        <div class="section-number">11</div>
+        <div class="section-title">PRD — Feature Details</div>
+        <span class="section-badge important">Reference</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </header>
+      <div class="section-body">
+        <div class="section-content">
+          <p class="lead">Compact PRD format for every feature in v1 — ID, name, priority, goal, user, functional requirements, acceptance criteria, dependencies. 58 features across 9 slots.</p>
+
+          <div class="prd-summary">
+            <div class="prd-summary-cell"><div class="prd-summary-num">58</div><div class="prd-summary-label">Total Features</div></div>
+            <div class="prd-summary-cell"><div class="prd-summary-num">53</div><div class="prd-summary-label">P0</div></div>
+            <div class="prd-summary-cell"><div class="prd-summary-num">5</div><div class="prd-summary-label">P1</div></div>
+            <div class="prd-summary-cell"><div class="prd-summary-num">9</div><div class="prd-summary-label">Slots</div></div>
+          </div>
+
+          <!-- =================== SENSE =================== -->
+          <div class="sub-block" id="prd-sense">
+            <h4><span class="num">JOB · 01</span>Sense — 9 features</h4>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">SNS-01</span><span class="prd-name">Loan Master Sync from LMS</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Bidirectional sync of loan account state from LMS into the collections module.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Collector / strategy team / ops</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Pull loan master fields (account, sanction, EMI, schedule, ROI, tenor); incremental sync every 15 min, full sync nightly; push DPD / bucket / disposition back to LMS; idempotent on retries.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>New disbursal in LMS visible in collections &lt;15 min; field-level diff logged per sync; sync failure pages on-call &lt;5 min.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-01</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">SNS-02</span><span class="prd-name">Live Ledger</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Real-time view of principal, interest accrued, penal, charges, suspense, and per-EMI status.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Collector / borrower (via self-service)</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Show current principal, interest accrued, penal, charges, suspense; per-EMI status (paid / due / skipped / partial); refresh on receipt within 5 min; show next 3 upcoming EMIs.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Ledger ties to LMS within Re. 1 EOD; receipt-driven update visible &lt;5 min.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-01, STL-06</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">SNS-03</span><span class="prd-name">DPD Calculator &amp; Bucket Assignment</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Hourly recompute of DPD and bucket (Current / 1-30 / 31-60 / 61-90 / 90+ / NPA / Written-off) for every open loan.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Strategy / ops / compliance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>DPD = today − earliest unpaid EMI date; bucket from configurable thresholds; recompute hourly for delinquents, daily for current; emit event on bucket transition.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>DPD queryable &lt;2 sec; bucket-roll report emailed by 9 AM IST; cure event suppresses dunning &lt;5 min.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-01, SNS-09</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">SNS-04</span><span class="prd-name">Borrower 360 View</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Single screen showing applicant + co-applicant + guarantor with masked PII, contact, address, and loan summary.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Tele agent / FOS / supervisor</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>All three personas with name, masked PAN, masked mobile, email, address; loan summary at top (outstanding, EMI, DPD, bucket); last 5 interactions; reveal-PII button with audit log.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>View loads &lt;2 sec; visible without scroll on 13" laptop; reveal-PII writes audit entry.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-01, SNS-02, SNS-08, GRD-05</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">SNS-05</span><span class="prd-name">Linked-Accounts Cross-Default Visibility</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Surface all loans held by the same Customer ID, with cross-default flag.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Collector / strategy team</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Group loans under canonical Customer ID; show each loan's bucket and outstanding; flag if any linked loan is 30+ DPD.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Linked loans visible on Borrower 360; cross-default flag triggers escalation in strategy tree.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-01, SNS-04</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">SNS-06</span><span class="prd-name">Property (Collateral) Record</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Maintain collateral property record: address, geo-coordinates, type, valuation, lien, insurance.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Manager / risk / legal</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Full address, lat/lng, type (apartment/independent/plot), valuation amount + date + valuer; lien status; insurance policy reference + expiry.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Property data on 100% of loans within 30 days of go-live; valuation older than 24 months auto-flagged.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-01</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">SNS-07</span><span class="prd-name">Behavioural History (12 Months)</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>12-month rolling history of bounces, cures, PTPs kept/broken, and complaints per borrower.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Collector / strategy team</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>NACH bounces, bucket transitions, all PTPs with status, complaints raised; chronological view; "chronic" auto-flag if 5+ bounces in 12 mo.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>History visible on Borrower 360; chronic flag observable.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-09, REC-03</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">SNS-08</span><span class="prd-name">Last-Contact Timestamp per Channel</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Per-channel last-attempt and last-success timestamps + 30-day success/attempt counts.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Strategy team / agent</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Track per channel: last attempt, last success, attempts/successes in last 30 days; auto-update on every dial / send / visit.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Updated within 1 min of contact event; visible on Borrower 360.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-09, RCH-01..04</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">SNS-09</span><span class="prd-name">Append-Only Event Log</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Single canonical event stream capturing every state transition — payments, bucket rolls, contact attempts, PTPs, allocations.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Engineering / analytics / audit</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Append-only (no updates / deletes); event = timestamp + type + actor + account_id + payload; queryable by account, date, type; retention &gt;7 yrs.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Every state change writes one event; reports query the log; full state replay possible from events.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>—</div>
+            </article>
+          </div>
+
+          <!-- =================== DECIDE =================== -->
+          <div class="sub-block" id="prd-decide">
+            <h4><span class="num">JOB · 02</span>Decide — 6 features</h4>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">DCD-01</span><span class="prd-name">Bulk Allocation Upload</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Ops uploads a CSV/Excel mapping case_id → team (field/tele) and optionally agent_id; system populates queues immediately.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Ops manager</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Accept CSV/Excel up to 50K rows; required cols case_id + team; optional agent_id, priority; validate cases exist; downloadable error report; re-upload archives prior assignment.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>10K-row upload &lt;5 min; error rows surfaced with reason; agents see new cases &lt;60 sec.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-01, RCH-03, RCH-04</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">DCD-02</span><span class="prd-name">Strategy / Treatment Trees per Bucket</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Configurable per-bucket treatment trees that auto-run dunning sequence (SMS / IVR / call / visit) once a case is allocated.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Strategy team</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Tree config = list of nodes (action + offset days); action types (SMS template, IVR script, agent dial, field visit, suppression); branching (PTP → suspend; RNR×3 → channel switch); versioning with effective dating; sandbox preview.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Strategy team can edit and roll a tree same day, no engineer; active PTP correctly suspends downstream nodes.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-03, RCH-01..04, REC-03</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">DCD-03</span><span class="prd-name">DPD-Bucket Segmentation</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Auto-segment cases by current DPD bucket and apply the right treatment tree.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>System</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Each case has current_bucket (from SNS-03); trees map 1:1 to buckets; bucket change pauses current tree and starts new one.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Bucket roll triggers tree switch &lt;5 min; no case in two trees simultaneously.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-03, DCD-02</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">DCD-04</span><span class="prd-name">Frequency Caps Enforced by Dialer</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Per-borrower max calls/day + max SMS/day, configured centrally, enforced at dialer / sender layer.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Compliance / strategy</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Default 3 voice + 1 SMS per day; configurable in admin UI; enforced at infra (not policy); counter resets midnight IST.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>4th voice call blocked; alert raised; cap logs in audit.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>GRD-04, RCH-01, RCH-03</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">DCD-05</span><span class="prd-name">Static Priority Sort within Agent Queue</span><span class="prd-priority p1">P1</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Agent queue sorted DPD desc → ticket desc, with PTPs surfacing on their due date.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Tele agent</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Default sort DPD desc, ticket desc; PTPs due today float to top; manual pin allowed.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Queue refreshes on case state change; pin persists across logout.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-03, REC-03</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">DCD-06</span><span class="prd-name">PTP-on-Hold Suppression</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Active PTP suppresses outbound dunning until the PTP date.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Borrower (UX) / compliance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Active PTP halts treatment tree progression; on PTP date — paid → close PTP, not paid → mark broken + resume tree; partial = partial-PTP-kept.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>No dunning during active PTP window (tested); broken PTP triggers escalation &lt;6h.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>REC-03, REC-04, DCD-02</div>
+            </article>
+          </div>
+
+          <!-- =================== REACH =================== -->
+          <div class="sub-block" id="prd-reach">
+            <h4><span class="num">JOB · 03</span>Reach — 7 features</h4>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">RCH-01</span><span class="prd-name">SMS via DLT-Registered Templates</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Send outbound SMS via TRAI-DLT-registered templates with merge fields.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Strategy team / borrower</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Template registry; merge fields (name, amount, due_date, ptp_date, payment_link); throttle per TRAI; capture delivery receipts (delivered / failed / blocked).</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>SMS lands &lt;60 sec; delivery rate &gt;97% on clean number set; non-DLT templates blocked.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-05, GRD-02</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">RCH-02</span><span class="prd-name">IVR for Early-Bucket Nudges</span><span class="prd-priority p1">P1</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Outbound IVR plays vernacular pre-recorded message and captures intent (1 = pay link, 2 = agent, 9 = callback).</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Borrower / ops</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Borrower-language pre-recorded message; DTMF capture for intent; trigger payment-link send on 1; warm-transfer to agent on 2.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>IVR completion &gt;40% on connected calls; intent captured as event.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-04, ACT-01</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">RCH-03</span><span class="prd-name">Agent Outbound Dialer (Progressive)</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Auto-dial next case from agent queue when agent goes idle; pre-popup of Borrower 360 just before connect.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Tele agent</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Progressive mode; pre-popup; mandatory disposition on call complete; recording auto on/off (with consent).</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Idle to next ringing &lt;5 sec; 100% calls have disposition.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-04, REC-01, GRD-03</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">RCH-04</span><span class="prd-name">Field Officer Mobile App</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Mobile app for FOS — beat plan, visit logging, on-spot payment link/cheque pickup.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Field officer</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Beat plan list + map; geo-tagged check-in/out; selfie + property photo; structured disposition; on-spot UPI link send; cheque-pickup workflow with reference capture; online-first OK.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>App opens to beat plan &lt;3 sec; visit syncs to back-end &lt;30 sec online.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-04, ACT-03, REC-02</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">RCH-05</span><span class="prd-name">Calling-Hour Enforcement</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Outbound dialer hard-disabled outside 8am–7pm IST and on national/state holidays.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Compliance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Window 8am–7pm IST (configurable with compliance approval); holiday list; dialer infra refuses calls outside window; agent UI shows status.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Outbound at 7:01 PM rejected (penetration tested); blocked attempts in audit log.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>GRD-01, PLM-04</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">RCH-06</span><span class="prd-name">DND Honour at SMS and Dialer</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Outbound SMS/calls suppressed for TRAI DND list and internal DND flags.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Compliance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Weekly TRAI DND sync; internal per-borrower per-channel DND; pre-flight check at dialer/sender.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Zero DND breaches in production audit.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>GRD-02, RCH-01, RCH-03</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">RCH-07</span><span class="prd-name">Co-Applicant Cascade</span><span class="prd-priority p1">P1</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>After RNR×3 to applicant, auto-queue co-applicant; then guarantor.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Tele agent / system</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Cascade sequence applicant → co-app → guarantor → references (consent-permitting); trigger 3 RNR within 5 days; explicit cascade event.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Cascade triggers correctly in test; logged in audit.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-04, RCH-03</div>
+            </article>
+          </div>
+
+          <!-- =================== ACT =================== -->
+          <div class="sub-block" id="prd-act">
+            <h4><span class="num">JOB · 04</span>Act — 3 features</h4>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">ACT-01</span><span class="prd-name">UPI Payment Link via SMS</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Generate dynamic UPI deep-link prefilled with EMI amount; deliver via SMS. Triggered by tele-caller (from agent desktop) or FOS (from field app).</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Tele-caller / FOS / borrower</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>One-click "send link" button on agent desktop AND FOS app; dynamic UPI link with amount + reference + expiry; embed in DLT-registered SMS template; track link state (created / clicked / paid / expired); auto-attribute trigger source (agent_id or FOS_id) for productivity reports; auto-link payment back to loan.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Link opens GPay/PhonePe/Paytm prefilled &lt;3 sec; payment posts to loan &lt;5 min; trigger source visible in PTP/payment audit.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>RCH-01, RCH-04, PLM-03</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">ACT-02</span><span class="prd-name">Tele-Call with Disposition + Recording</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Agent places call, captures disposition, records the call with consent, and can send a UPI payment link mid-call.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Tele agent</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Click-to-dial; disposition codes from fixed taxonomy; free-text note (max 500 char); recording auto-on with consent; mute/hold/transfer; one-click "send payment link" mid-call (triggers ACT-01).</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Dial-to-connect &lt;8 sec; 100% completed calls have disposition; recording retrievable by call ID; payment link send confirmation visible to agent.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-04, REC-01, GRD-03, ACT-01</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">ACT-03</span><span class="prd-name">Field Visit (Cheque / UPI On-Spot)</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>FOS visits, captures structured visit, accepts cheque or sends UPI link on-spot. No cash in v1.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Field officer</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Visit log with arrival/departure geo, selfie, property photo, structured disposition; on-spot UPI link send; cheque pickup with cheque#/bank/amount/photo.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Visit logged &lt;3 min; UPI link delivered &lt;30 sec; cheque entry syncs &lt;30 sec online.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>RCH-04, ACT-01</div>
+            </article>
+          </div>
+
+          <!-- =================== RECORD =================== -->
+          <div class="sub-block" id="prd-record">
+            <h4><span class="num">JOB · 05</span>Record — 4 features</h4>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">REC-01</span><span class="prd-name">Call Recording with Consent Disposition</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Every connected call recorded with explicit consent disposition, retrievable by case.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Compliance / supervisor</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>IVR or agent-script consent prompt; disposition (yes / no / no-response); MP3/WAV stored in S3 linked to call ID; retention 7 yrs; search by call/account/agent/date.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Recording retrievable by account &lt;30 sec; consent flag visible alongside; retention auto-enforced.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-04, GRD-03, GRD-06</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">REC-02</span><span class="prd-name">Visit Log (Timestamp + Geo + Photo + Disposition)</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Capture every FOS visit with arrival/departure timestamps, geo, selfie, property photo, structured disposition.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Manager / compliance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Fields: visit_id, case_id, FOS_id, arrival_ts, departure_ts, lat/lng, selfie, property_photo, disposition_code, note; geo-validation against property record (warn if &gt;500m off).</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>100% visits have geo + photo; geo-mismatch flag triggers ops review &lt;24h.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>RCH-04, SNS-06</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">REC-03</span><span class="prd-name">PTP Capture (Structured Object)</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Record PTP as structured data — amount, date, channel, agent — not as free text.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Strategy team / agent</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Fields: ptp_id, case_id, amount, date, channel, agent_id, captured_ts; status (active / kept / broken / partial); multiple PTPs allowed per case (rolling).</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>PTP capture from agent UI &lt;30 sec; visible on Borrower 360 immediately.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-09</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">REC-04</span><span class="prd-name">PTP Tracking + Auto-Link Payment</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Auto-monitor PTP date; on payment, auto-link receipt to open PTP.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Strategy team / system</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>At PTP date midnight without payment → mark broken; on incoming payment match against open PTPs by amount + tolerance; partial → partial-kept with residual captured.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>&gt;95% payments auto-link without manual intervention; PTP-kept report runs weekly.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>REC-03, STL-01</div>
+            </article>
+          </div>
+
+          <!-- =================== SETTLE =================== -->
+          <div class="sub-block" id="prd-settle">
+            <h4><span class="num">JOB · 06</span>Settle — 7 features</h4>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">STL-01</span><span class="prd-name">Multi-Mode Receipt (Cheque / UPI / NEFT / NACH / Link)</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Issue receipts for all digital and instrument-based modes (cash deferred).</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Ops / borrower</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Common receipt schema; cheque (cheque#/bank/branch); UPI (VPA + txn ref); NEFT/IMPS (UTR); link (PG ref); NACH (NPCI file); receipt PDF + SMS to borrower &lt;1 min.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Receipt issuable from branch/agent/FOS/self-service uniformly.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-03, ACT-01</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">STL-02</span><span class="prd-name">Provisional → Final Receipt</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Cheque deposits create provisional receipts; on clearance final, on bounce reversed.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Borrower / ops</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Provisional state on deposit; bank-clearance file flips to final; bounce → reverse + bounce charge; SMS to borrower at each transition.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Cheque-in-clearing visible separately from cleared; bounce cascades correctly to DPD/PTP/case state.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>STL-01, PLM-02, STL-07</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">STL-03</span><span class="prd-name">Configurable Appropriation Waterfall</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Per-product config of payment appropriation order across charges, penal, interest, principal.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Finance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Default waterfall (charges → penal → interest → principal); per-product config with effective dating; maker-checker on change; audit log.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Sample receipt appropriated correctly per config; change effective from next receipt.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-02</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">STL-04</span><span class="prd-name">Bank-Statement to Receipt Match</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Daily auto-reconcile bank statement entries to issued receipts; exceptions queued.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Ops</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Auto-pull statements (HDFC virtual accounts, ICICI, etc.); match by amount + reference + date; exceptions queue with one-click manual link; full match audit.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Match rate &gt;95% on volume; exception queue cleared &lt;24h SLA.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>STL-01, PLM-02</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">STL-05</span><span class="prd-name">NACH File Reconciliation</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Daily ingestion of NPCI NACH presentation file: presented vs success vs bounce.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Ops</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Ingest presentation + return file; auto-update receipt statuses; auto-raise bounce charges per config; trigger strategy engine on bounce.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>100% NPCI events processed &lt;4h; bounce charges visible same day.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-03, STL-01, STL-07</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">STL-06</span><span class="prd-name">Daily GL Posting + Sub-Ledger Tie-Out</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Each receipt posts to GL daily; sub-ledger ties to GL with auto-exception report.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Finance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Standard journal entries (interest income, principal, penal, charges); tie-out report with diff col; auto-flag &gt;Re. 1 diff.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Tie-out runs by 2 AM IST; diffs investigated &lt;24h SLA.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>STL-01, PLM-02</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">STL-07</span><span class="prd-name">Bounce Reversal Cascade</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>On cheque bounce / NACH return / chargeback, undo all downstream state changes.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Ops / system</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Reverse receipt (negative GL post); recompute DPD/bucket; reverse PTP-kept if applicable; reopen closed case if applicable; notify originator agent.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Cascade completes &lt;30 min of bounce event.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>STL-01, REC-04, SNS-03</div>
+            </article>
+          </div>
+
+          <!-- =================== IMPROVE =================== -->
+          <div class="sub-block" id="prd-improve">
+            <h4><span class="num">JOB · 07</span>Improve — 7 features</h4>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">IMP-01</span><span class="prd-name">Daily Roll-Rate Report per Bucket</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Daily report of bucket-to-bucket roll-forward and roll-back rates.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Manager</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Roll-forward % (bucket N → N+1); roll-back % (cure to lower bucket); slice by geography, product, ticket band; drill-down to account list.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Emailed to managers by 9 AM IST daily; drill-down available.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-09, SNS-03</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">IMP-02</span><span class="prd-name">Weekly Cure-Rate Report</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>% of accounts in each bucket that returned to current within the week.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Strategy team</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Cure rate = cured-to-current / starting bucket population; slice by bucket / geography / employment; trended 12 weeks.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Published Monday morning for prior week.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-09</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">IMP-03</span><span class="prd-name">Agent Productivity Dashboard</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Per-agent metrics: calls/day, AHT, RPC%, cure ₹, schedule adherence, QA score.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Tele lead / supervisor</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Daily refresh; trend over 30 days; comparable to team average; drill-down to call list.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Lead sees previous-day stats by 10 AM; trend chart over rolling 30 days.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>REC-01, SNS-09</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">IMP-04</span><span class="prd-name">PTP-Kept% and PTP→Payment Lag</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Aggregate PTP-kept rate at agent / team level + average lag between PTP and payment.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Manager</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>PTP-kept% = kept / (kept + broken); lag = avg(payment_date − ptp_date) for kept-late; slice by agent / channel / bucket.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Surfaced on agent productivity dashboard.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>REC-03, REC-04</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">IMP-05</span><span class="prd-name">Cost-to-Collect by Channel</span><span class="prd-priority p1">P1</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Channel cost ÷ recoveries on that channel — to inform strategy.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Finance / strategy</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Per-channel monthly cost (contract or activity-based); per-channel recoveries; cost-to-collect = cost / recoveries.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Monthly report with 3-month trend.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-09, STL-01</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">IMP-06</span><span class="prd-name">Monthly NPA Report (NHB-Ready)</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Auto-generate monthly NPA report in NHB return format from the event log.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Compliance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Generate per NHB template; sourced from event log (no manual extraction); approval workflow before submission; auditor sees raw queries.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Compliance prep time &lt;2h (vs weeks pre-system).</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-09, SNS-03</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">IMP-07</span><span class="prd-name">Quarterly Vintage Curves</span><span class="prd-priority p1">P1</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Static-pool vintage analysis: % of cohort in 90+ DPD by month-since-disbursal.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Risk</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Cohort by origination month/quarter; track delinquency at month 3/6/12/18/24/36; side-by-side cohort comparison.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Curve produced quarterly.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-09</div>
+            </article>
+          </div>
+
+          <!-- =================== GUARDRAILS =================== -->
+          <div class="sub-block" id="prd-guardrails">
+            <h4><span class="num">CROSS-CUTTING</span>Guardrails — 6 features</h4>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">GRD-01</span><span class="prd-name">Calling-Hour Window Enforcement</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Outbound contact channels disabled outside 8 AM – 7 PM IST + holidays, enforced at infra.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Compliance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Window 8am–7pm IST (configurable with compliance approval); national + applicable state holiday list; enforcement at dialer + SMS gateway + WhatsApp BSP; audit log on every block.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Penetration test confirms no outbound at 7:01 PM.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-04, PLM-05</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">GRD-02</span><span class="prd-name">DND Honour at SMS and Dialer</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>TRAI DND list and internal DND flags suppress outbound SMS / call.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Compliance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Weekly TRAI DND sync; per-borrower per-channel internal DND flag; pre-flight check before dial / send.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Zero DND breaches in audit.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-05, PLM-04</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">GRD-03</span><span class="prd-name">Recording-Consent Capture</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Every recorded call has a consent disposition (yes / no / no-response).</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Compliance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>IVR or agent-script consent prompt at call start; consent disposition captured per call; on "no" — stop recording, mark per disposition.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>100% recordings have a consent flag.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-04</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">GRD-04</span><span class="prd-name">Per-Borrower Frequency Cap</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Max-N outbound voice + SMS per borrower per day, configurable, enforced at infra.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Compliance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Default 3 voice + 1 SMS per day; configurable; enforced at infra (dialer/sender); reset midnight IST.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>4th call blocked, alert raised.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>DCD-04, PLM-04, PLM-05</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">GRD-05</span><span class="prd-name">Role-Based Access Control</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Role-based permissions across collector / supervisor / manager / compliance / ops / finance / admin.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Compliance / admin</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Role hierarchy with inheritance; per-action permission matrix; per-field PII permission (mask + reveal-with-audit); configurable per org.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Collector cannot see another collector's recordings; reveal-PII click logged.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-08</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">GRD-06</span><span class="prd-name">Data Retention Policy</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Per-data-class retention — recordings 7 yrs, KYC 10 yrs post-closure, complaints 5 yrs.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Compliance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Retention rules per data class; auto-purge job runs monthly; legal-hold flag respected (no purge while flag active).</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Audit confirms purge ran per schedule; legal-hold accounts retained beyond standard.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-09</div>
+            </article>
+          </div>
+
+          <!-- =================== PLUMBING =================== -->
+          <div class="sub-block" id="prd-plumbing">
+            <h4><span class="num">CROSS-CUTTING</span>Plumbing — 9 features</h4>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">PLM-01</span><span class="prd-name">LMS Bidirectional Integration</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Real-time(ish) sync of loan data from LMS to collections; DPD / bucket / disposition pushed back.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Engineering</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Pull loan master + schedule + payments + balances every 15 min; push DPD / bucket / allocation / dispositions every 1 hr; API + bulk file fallback; idempotent.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Disbursal in LMS visible in collections &lt;15 min; pushback visible in LMS &lt;1 hr.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-01</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">PLM-02</span><span class="prd-name">Core Banking / GL Integration</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Daily posting to core banking GL for receipts, charges, write-offs.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Finance</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Standard journal entries per event type; tie-out report (sub-ledger vs GL); reversal entries on bounce.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Tie-out diffs &lt;Re. 1 daily.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>STL-06</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">PLM-03</span><span class="prd-name">Payment Rails (NACH / UPI / PG / NEFT)</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Integration with NPCI NACH, UPI collect/intent, payment gateway, NEFT inflows.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Engineering / ops</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>NACH presentation file gen + return file ingest; UPI deep-link + collect + intent; PG hosted checkout for cards/netbanking; NEFT virtual-account attribution.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>End-to-end test on each rail produces a posted receipt.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>STL-01, ACT-01</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">PLM-04</span><span class="prd-name">Telephony (SIP + Dialer + Recording)</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>SIP-trunked telephony with progressive dialer and central recording storage.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Engineering / tele agent</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>SIP trunks with backup; progressive dialer integrated to agent UI; recording in S3 indexed by call ID; capacity sized for peak.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Outbound dial connects &lt;8 sec; recording retrievable by call/account.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>RCH-03, REC-01</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">PLM-05</span><span class="prd-name">Messaging (SMS Aggregator + DLT)</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>SMS sending via aggregator with TRAI DLT-registered templates and sender IDs.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Engineering</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>DLT registration of all templates; sender ID management; delivery receipts; throttling per TRAI.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>SMS delivered &lt;60 sec; non-DLT messages blocked.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>RCH-01</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">PLM-06</span><span class="prd-name">Credit Bureau Integration (CIBIL)</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>CIBIL pull on demand; monthly delinquency reporting.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Compliance / collections</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>On-demand pull (skip-trace, OTS); monthly bulk report per CIBIL spec; bureau response stored as artefact.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Monthly report on time; on-demand pull &lt;30 sec.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>SNS-09</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">PLM-07</span><span class="prd-name">HRMS Integration</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Pull agent master, skill, language, geography, and roster from HRMS.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Ops / HR</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>Daily sync of agent records; skill tags (language, region, product); roster (shift, off-day, leave); auto-disable inactive.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>New hire visible in collections &lt;24h of HRMS entry.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>PLM-08</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">PLM-08</span><span class="prd-name">Single Sign-On</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>SSO via corporate IdP (Azure AD / Okta / Google Workspace).</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>All users / IT</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>SAML or OIDC integration; MFA required for elevated roles; session timeout per policy.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>User signs in via corporate IdP only (no local passwords).</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>GRD-05</div>
+            </article>
+
+            <article class="prd-card">
+              <div class="prd-head"><span class="prd-id">PLM-09</span><span class="prd-name">API-First Design</span><span class="prd-priority p0">P0</span></div>
+              <div class="prd-line"><span class="prd-line-label">Goal</span>Every UI action backed by an API; no UI-only features.</div>
+              <div class="prd-line"><span class="prd-line-label">User</span>Engineering / partners</div>
+              <div class="prd-line"><span class="prd-line-label">FRs</span>REST + JSON; OpenAPI-documented; OAuth2 / API-key auth; per-consumer rate limits.</div>
+              <div class="prd-line"><span class="prd-line-label">Acceptance</span>Every UI feature has corresponding documented API.</div>
+              <div class="prd-line"><span class="prd-line-label">Deps</span>—</div>
+            </article>
+          </div>
+
+        </div>
+      </div>
+    </article>
+
     <div class="doc-footer">
       COLLECTIONS · MVP FEATURE LIST · v1.0
     </div>
@@ -1131,8 +1859,9 @@
       e.preventDefault();
       const target = document.querySelector(href);
       if (!target) return;
-      if (target.classList.contains('section-card')) {
-        target.classList.add('open');
+      const parentCard = target.closest('.section-card');
+      if (parentCard) {
+        parentCard.classList.add('open');
       }
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('sidebarOverlay').classList.remove('active');

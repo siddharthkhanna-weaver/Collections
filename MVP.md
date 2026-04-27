@@ -49,14 +49,16 @@ Without clean state, no action is correct. ML and geo-analytics layer on top.
 ## 2. Decide — MVP
 
 **Ships in v1**
-- Rule-based segmentation (DPD × bucket × ticket-band × geography)
-- Static treatment trees per segment (e.g., 1-30 → SMS → IVR → agent; 31-60 → agent → field; 61+ → field → legal)
+- **Bulk allocation upload** — ops uploads a case → team mapping (CSV / Excel) for field and tele teams
+- **Strategy for communication defined in the system** — static treatment trees per bucket / channel govern what is sent (SMS / IVR / call / visit) and when, once a case is allocated
+- DPD-bucket segmentation — system knows each case's bucket and applies the right tree automatically
 - Frequency caps in config, enforced by dialer (max calls/day, max SMS/day)
-- Allocation: rule-based to channel + manual override at supervisor level
 - Static priority sort within agent queue (DPD desc → ticket desc)
 - PTP-on-hold suppression (active PTP pauses dunning until expiry)
 
 **Deferred**
+- Rule-based auto-allocation to channel / agent
+- Multi-dimensional segmentation (ticket × geography × employment)
 - ML propensity scores for ranking
 - Champion-challenger
 - Cost-aware action selection
@@ -64,12 +66,12 @@ Without clean state, no action is correct. ML and geo-analytics layer on top.
 - Automated re-allocation triggers
 
 **Done when**
-- Strategy team can edit rules without an engineer
-- Allocation runs nightly; queues populated by 6am
+- Ops can upload a case → team mapping for the day's portfolio in <5 minutes; system populates queues immediately
+- The right dunning tree runs for each bucket without manual intervention once allocated
 - Frequency caps verifiably non-overrideable in penetration test
 
 **Why this cut**
-A working rules engine beats an empty ML wishlist. ML layers on once data is flowing.
+v1 splits the decision cleanly: **ops decides *who* handles each case** (via bulk upload) while **the system decides *how* to communicate** (strategy trees by bucket). Auto-allocation layers on once the rules are proven and ops trusts the system to choose channel and agent.
 
 ---
 
@@ -105,31 +107,31 @@ SMS + IVR + agent + field cover >90% of Indian collection contacts. WhatsApp is 
 ## 4. Act — MVP
 
 **Ships in v1**
-- UPI payment link (one-tap, amount-pre-filled) sent via SMS
-- Tele-call with disposition capture + call recording
-- Field visit — cash/cheque/UPI receipt on the spot + geo-tagged photo + structured disposition
-- Section 138 NI Act notice (template-driven)
-- SARFAESI Section 13(2) demand notice
-- SARFAESI Section 13(4) symbolic possession workflow tracked end-to-end
-- OTS workflow with delegation matrix and waiver booking
-- Insurance-claim filing (upload + tracker)
+- UPI payment link (one-tap, amount-pre-filled) — triggered by tele-caller or FOS, delivered via SMS
+- Tele-call with disposition capture + call recording + one-click "send payment link"
+- Field visit — cheque / UPI on-spot (FOS can send the link from the app) + geo-tagged photo + structured disposition
 
 **Deferred**
+- Cash collection at field (custody, deposit, shortage-tracking overhead)
+- Section 138 NI Act notice (template-driven)
+- SARFAESI Section 13(2) demand notice
+- SARFAESI Section 13(4) symbolic possession workflow
+- OTS workflow with delegation matrix and waiver booking
+- Insurance-claim filing (upload + tracker)
+- E-stamp + e-sign integration
+- Full e-auction module
+- Restructure NPV simulator
 - WhatsApp interactive pay flow
 - Voice-bot intent capture
 - E-NACH self-service
-- Full e-auction module (manual handoff after 13(4) for v1)
-- Restructure NPV simulator
-- E-stamp + e-sign integration (manual courier OK)
 
 **Done when**
 - Agent sends a payment link in <10 seconds
 - Field officer issues a digital receipt on doorstep
-- Legal team generates Sec 138 or 13(2) notice in <2 minutes
-- 13(4) possession workflow is fully tracked from notice to symbolic possession
+- A delinquent borrower can be touched by digital + tele + field channels in a single day
 
 **Why this cut**
-These are the legally-required acts for secured retail. Auction is the next milestone — typically 6–9 months after 13(4) flow is live anyway.
+v1 ships the operational collection core — digital + tele + field. Legal recovery (Sec 138, SARFAESI), OTS, and insurance workflows are a separate workstream that layers on once the operational engine is stable. They involve longer build cycles, lawyer dependencies, and don't move recoveries on day one.
 
 ---
 
@@ -140,38 +142,39 @@ These are the legally-required acts for secured retail. Auction is the next mile
 - Every visit logged with timestamp + geo-tag + disposition + photo
 - PTP capture as structured object (amount + date + channel)
 - PTP tracking (kept / broken / partial) with auto-link of incoming payment
-- Document vault for notices, AD/POD, OTS letters, court orders, valuation reports
-- Audit log on config changes, allocations, waivers, write-offs, PII access
 
 **Deferred**
-- Hash-chained tamper-evidence (append-only DB OK for v1)
+- Document vault for notices, AD/POD, OTS letters, court orders, valuation reports
+- Audit log on config changes, allocations, waivers, write-offs, PII access
+- Hash-chained tamper-evidence
 - OCR-indexed vault
 - Customer-voice auto-tagging
-- Versioning of legal documents (last-version-wins acceptable)
+- Versioning of legal documents
 
 **Done when**
 - Any call retrievable by account number in <30 seconds
-- Audit can answer "who changed waterfall config in March?" in one query
+- Every visit has timestamp, geo-tag, photo, and disposition stored
 - PTP-performance report runs weekly
 
 **Why this cut**
-Without records, no recovery survives legal challenge. Tamper-evidence and OCR are layer-2.
+v1 records what the operational team needs day-to-day — every call, every visit, every PTP. Legal-grade document custody and full config-audit logging are governance layers that pair with the deferred legal recovery workflow; ship them together once Sec 138 / SARFAESI is on the roadmap.
 
 ---
 
 ## 6. Settle — MVP
 
 **Ships in v1**
-- Receipt: cash, cheque, UPI, NEFT, NACH, payment link
+- Receipt: cheque, UPI, NEFT, NACH, payment link
 - Provisional → final receipt on clearance / NACH success
 - Configurable appropriation waterfall (charges → penal → interest → principal)
 - Bank-statement to receipt match (auto + exception queue)
 - NACH file reconciliation (presented / success / bounce)
-- Cash custody reconciliation per FOS
 - Daily GL posting with sub-ledger tie-out
 - Bounce reversal — reverse EMI, restore DPD, reopen case, reverse PTP-kept
 
 **Deferred**
+- Cash receipts (branch counter + FOS doorstep)
+- Cash custody reconciliation per FOS / branch / agency
 - Card / wallet / BBPS receipts
 - Auction-proceeds appropriation
 - Insurance-proceeds appropriation
@@ -179,12 +182,12 @@ Without records, no recovery survives legal challenge. Tamper-evidence and OCR a
 - Borrower self-service for excess/suspense
 
 **Done when**
-- Any-channel receipt reconciled to GL by next day
+- Any digital receipt reconciled to GL by next day
 - Unmatched bank receipts <1% of daily volume
-- FOS cash shortage flagged within 24 hours
+- Bounce reversal cascades cleanly (DPD restored, case reopened, PTP-kept reversed)
 
 **Why this cut**
-Money in the wrong account = unrecovered. Reconciliation is non-negotiable.
+Money in the wrong account = unrecovered. Reconciliation is non-negotiable. Cash is deferred — its custody, deposit, and shortage-tracking burden isn't worth carrying when every borrower can pay via UPI / NACH / link.
 
 ---
 
@@ -224,11 +227,11 @@ Three numbers — roll, cure, RPC — steer 80% of decisions. The rest is layer-
 - DND honour at SMS and dialer
 - Recording-consent capture (IVR prompt for inbound; agent script for outbound)
 - Per-borrower frequency cap at dialer (configurable; default 3 calls/day)
-- Audit log on config, allocation, waiver, write-off, PII access
 - Role-based access control (collector / supervisor / manager / compliance)
 - Data retention policy — recordings 7 yrs, KYC 10 yrs post-closure
 
 **Deferred**
+- Audit log on config, allocation, waiver, write-off, PII access
 - Geofenced FOS access (basic location for v1)
 - Full DEPA consent ledger with revocation propagation
 - Field-level PII masking by role
@@ -238,10 +241,10 @@ Three numbers — roll, cure, RPC — steer 80% of decisions. The rest is layer-
 **Done when**
 - 4th outbound call to same borrower in a day is impossible (penetration-tested)
 - Every call has a consent disposition
-- Audit can produce who-changed-what on any config in last 12 months
+- Calling-hour and DND breaches are zero in production
 
 **Why this cut**
-The regulatory floor. Every gap here is a complaint, a fine, or a license risk.
+The regulatory floor on borrower-facing conduct. Every gap here is a complaint, a fine, or a license risk. Internal-governance audit (config / waiver / write-off / PII access trails) layers on later alongside the legal and document-vault stack.
 
 ---
 

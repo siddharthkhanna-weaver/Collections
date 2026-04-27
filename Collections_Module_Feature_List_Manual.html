@@ -862,6 +862,212 @@
     line-height: 1.5;
   }
 
+  /* ---------- ARCHITECTURE DIAGRAM ---------- */
+  .architecture-diagram {
+    margin: 22px 0 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .arch-layer {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+
+  .arch-layer-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gray-500);
+    margin-bottom: 12px;
+  }
+
+  .arch-actors {
+    background: rgba(27, 70, 69, 0.05);
+    border-color: rgba(27, 70, 69, 0.18);
+  }
+
+  .arch-actors .arch-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .arch-actors .arch-chip {
+    background: var(--primary-light);
+    border: 1px solid rgba(27, 70, 69, 0.2);
+    color: var(--primary-dark);
+    font-weight: 600;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 6px;
+  }
+
+  .arch-channels {
+    background: rgba(53, 123, 56, 0.04);
+    border-color: rgba(53, 123, 56, 0.2);
+  }
+
+  .arch-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+  }
+
+  .arch-col {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+
+  .arch-col-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .arch-chip {
+    display: inline-block;
+    font-size: 12px;
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    padding: 3px 9px;
+    border-radius: 5px;
+    color: var(--gray-700);
+    margin: 3px 4px 3px 0;
+    font-weight: 500;
+  }
+
+  .arch-arrow-v {
+    text-align: center;
+    color: var(--gray-400);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    padding: 2px 0;
+  }
+
+  /* GUARDRAILS wrapper around the core */
+  .arch-guardrails {
+    border: 2px dashed rgba(255, 190, 54, 0.55);
+    border-radius: 12px;
+    padding: 18px 14px 14px;
+    background: rgba(255, 190, 54, 0.04);
+    position: relative;
+  }
+
+  .arch-guardrails-label {
+    position: absolute;
+    top: -10px;
+    left: 18px;
+    background: var(--gray-50);
+    padding: 0 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #8a6d00;
+  }
+
+  /* Core layer */
+  .arch-core {
+    background: #fff;
+    border-color: var(--gray-300);
+    margin: 0;
+  }
+
+  .arch-jobs-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .arch-job {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 86px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .arch-job-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    opacity: 0.75;
+    letter-spacing: 0.12em;
+    line-height: 1.3;
+  }
+
+  .arch-job-name {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .arch-flow-arrow {
+    color: var(--gray-400);
+    font-size: 16px;
+    font-weight: 600;
+    padding: 0 2px;
+  }
+
+  .arch-event-stream {
+    background: var(--primary-light);
+    border: 1px solid rgba(27, 70, 69, 0.25);
+    border-radius: 8px;
+    padding: 10px 14px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .arch-stream-label {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--primary-dark);
+    letter-spacing: -0.005em;
+  }
+
+  .arch-stream-sub {
+    font-size: 11px;
+    color: var(--gray-600);
+  }
+
+  /* Plumbing */
+  .arch-plumbing {
+    background: rgba(27, 70, 69, 0.03);
+    border-color: rgba(27, 70, 69, 0.18);
+  }
+
+  @media (max-width: 700px) {
+    .arch-jobs-flow { gap: 4px; }
+    .arch-job { min-width: 72px; padding: 6px 10px; }
+    .arch-job-name { font-size: 11px; }
+    .arch-flow-arrow { display: none; }
+  }
+
   /* ---------- BACK TO TOP ---------- */
   .back-to-top {
     position: fixed;
@@ -977,7 +1183,7 @@
     <div class="nav-section-title">Foundation</div>
     <a href="#overview" class="nav-item"><span class="nav-dot"></span>Overview</a>
     <a href="#method" class="nav-item"><span class="nav-dot"></span>Method</a>
-    <a href="#seven-jobs" class="nav-item"><span class="nav-dot"></span>The Seven Atomic Jobs</a>
+    <a href="#seven-jobs" class="nav-item"><span class="nav-dot"></span>Architecture &amp; 7 Jobs</a>
   </div>
 
   <div class="nav-section">
@@ -1058,11 +1264,11 @@
       </div>
     </article>
 
-    <!-- SECTION 2: SEVEN JOBS OVERVIEW -->
-    <article class="section-card" id="seven-jobs">
+    <!-- SECTION 2: ARCHITECTURE & THE SEVEN JOBS -->
+    <article class="section-card open" id="seven-jobs">
       <header class="section-header" onclick="toggleSection(this)">
         <div class="section-number">02</div>
-        <div class="section-title">The Seven Atomic Jobs</div>
+        <div class="section-title">Architecture &amp; The Seven Atomic Jobs</div>
         <span class="section-badge important">Anchor</span>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </header>
@@ -1077,6 +1283,142 @@
             <div class="job-tile"><div class="job-num">JOB · 05</div><div class="job-name">Record</div><div class="job-q">What happened, who did it, with what evidence?</div></div>
             <div class="job-tile"><div class="job-num">JOB · 06</div><div class="job-name">Settle</div><div class="job-q">Collect the money, reconcile it, close the case correctly.</div></div>
             <div class="job-tile"><div class="job-num">JOB · 07</div><div class="job-name">Improve</div><div class="job-q">Measure outcomes, attribute causes, tune the strategy.</div></div>
+          </div>
+
+          <div class="sub-block" style="margin-top: 32px;">
+            <h4>Architecture — How It Fits Together</h4>
+            <p style="font-size: 14px; color: var(--gray-700); margin-bottom: 8px;">Read top-down. Borrowers interact via channels; the core engine runs the seven jobs around an event stream; plumbing connects to external systems; guardrails wrap the whole core.</p>
+
+            <div class="architecture-diagram">
+
+              <!-- Actors -->
+              <div class="arch-layer arch-actors">
+                <div class="arch-layer-label">Actors</div>
+                <div class="arch-row">
+                  <span class="arch-chip">Borrower</span>
+                  <span class="arch-chip">Co-Applicant</span>
+                  <span class="arch-chip">Guarantor</span>
+                  <span class="arch-chip">References</span>
+                  <span class="arch-chip">Lender Staff (Agent · FOS · Legal · Ops)</span>
+                </div>
+              </div>
+
+              <div class="arch-arrow-v">↕</div>
+
+              <!-- Channels -->
+              <div class="arch-layer arch-channels">
+                <div class="arch-layer-label">Channels</div>
+                <div class="arch-cols">
+                  <div class="arch-col">
+                    <div class="arch-col-label">Inbound</div>
+                    <span class="arch-chip">Self-service portal / app</span>
+                    <span class="arch-chip">Inbound IVR</span>
+                    <span class="arch-chip">Inbound call</span>
+                    <span class="arch-chip">Branch walk-in</span>
+                  </div>
+                  <div class="arch-col">
+                    <div class="arch-col-label">Outbound — Digital</div>
+                    <span class="arch-chip">SMS</span>
+                    <span class="arch-chip">WhatsApp</span>
+                    <span class="arch-chip">IVR</span>
+                    <span class="arch-chip">Voice-bot</span>
+                    <span class="arch-chip">Email</span>
+                    <span class="arch-chip">Payment link</span>
+                  </div>
+                  <div class="arch-col">
+                    <div class="arch-col-label">Outbound — Human</div>
+                    <span class="arch-chip">Agent dialer</span>
+                    <span class="arch-chip">FOS visit</span>
+                    <span class="arch-chip">Letter</span>
+                    <span class="arch-chip">Legal notice</span>
+                    <span class="arch-chip">Lawyer / court</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="arch-arrow-v">↕</div>
+
+              <!-- Guardrails wrapping Core -->
+              <div class="arch-guardrails">
+                <div class="arch-guardrails-label">Guardrails — Compliance · Consent · Security · Audit</div>
+
+                <div class="arch-layer arch-core">
+                  <div class="arch-layer-label">Core — The Seven Atomic Jobs</div>
+
+                  <div class="arch-jobs-flow">
+                    <div class="arch-job"><span class="arch-job-num">JOB · 01</span><span class="arch-job-name">Sense</span></div>
+                    <span class="arch-flow-arrow">→</span>
+                    <div class="arch-job"><span class="arch-job-num">JOB · 02</span><span class="arch-job-name">Decide</span></div>
+                    <span class="arch-flow-arrow">→</span>
+                    <div class="arch-job"><span class="arch-job-num">JOB · 03</span><span class="arch-job-name">Reach</span></div>
+                    <span class="arch-flow-arrow">→</span>
+                    <div class="arch-job"><span class="arch-job-num">JOB · 04</span><span class="arch-job-name">Act</span></div>
+                    <span class="arch-flow-arrow">→</span>
+                    <div class="arch-job"><span class="arch-job-num">JOB · 05</span><span class="arch-job-name">Record</span></div>
+                    <span class="arch-flow-arrow">→</span>
+                    <div class="arch-job"><span class="arch-job-num">JOB · 06</span><span class="arch-job-name">Settle</span></div>
+                    <span class="arch-flow-arrow">→</span>
+                    <div class="arch-job"><span class="arch-job-num">JOB · 07</span><span class="arch-job-name">Improve</span></div>
+                  </div>
+
+                  <div class="arch-event-stream">
+                    <span class="arch-stream-label">Event Stream — append-only · single source of truth</span>
+                    <span class="arch-stream-sub">Every job reads from and writes to this. Improve closes the loop by changing what Sense sees next.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="arch-arrow-v">↕</div>
+
+              <!-- Plumbing -->
+              <div class="arch-layer arch-plumbing">
+                <div class="arch-layer-label">Plumbing — Integrations</div>
+                <div class="arch-cols">
+                  <div class="arch-col">
+                    <div class="arch-col-label">Account Systems</div>
+                    <span class="arch-chip">LMS</span>
+                    <span class="arch-chip">LOS</span>
+                    <span class="arch-chip">Core Banking</span>
+                    <span class="arch-chip">GL</span>
+                  </div>
+                  <div class="arch-col">
+                    <div class="arch-col-label">Payment Rails</div>
+                    <span class="arch-chip">NACH</span>
+                    <span class="arch-chip">UPI</span>
+                    <span class="arch-chip">PG</span>
+                    <span class="arch-chip">BBPS</span>
+                    <span class="arch-chip">NEFT / IMPS</span>
+                  </div>
+                  <div class="arch-col">
+                    <div class="arch-col-label">Communication Rails</div>
+                    <span class="arch-chip">Telephony / SIP</span>
+                    <span class="arch-chip">SMS · DLT</span>
+                    <span class="arch-chip">WhatsApp BSP</span>
+                    <span class="arch-chip">Email ESP</span>
+                  </div>
+                  <div class="arch-col">
+                    <div class="arch-col-label">Data Sources</div>
+                    <span class="arch-chip">Bureau (CIBIL / CRIF)</span>
+                    <span class="arch-chip">Account Aggregator</span>
+                    <span class="arch-chip">EPFO · NSDL</span>
+                    <span class="arch-chip">Alt-data</span>
+                  </div>
+                  <div class="arch-col">
+                    <div class="arch-col-label">Legal &amp; Identity</div>
+                    <span class="arch-chip">e-Stamp · SHCIL</span>
+                    <span class="arch-chip">e-Sign · DSC</span>
+                    <span class="arch-chip">Court · MSTC e-auction</span>
+                    <span class="arch-chip">HRMS · SSO</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="callout info" style="margin-top: 18px;">
+              <span class="callout-title">How to read this</span>
+              The event stream is the spine. Every job both reads and writes events. Improve doesn't call Decide directly — it changes the data Decide sees next time. That's how the system gets smarter without coupling.
+            </div>
           </div>
         </div>
       </div>
